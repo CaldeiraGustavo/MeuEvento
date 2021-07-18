@@ -3,8 +3,8 @@ class Evento {
   final String nome;
   final String conjuge1;
   final String conjuge2;
-  final int convidados;
-  final DateTime data;
+  final String convidados;
+  final String data;
 
   const Evento({
     required this.id,
