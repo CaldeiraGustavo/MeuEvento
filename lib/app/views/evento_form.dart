@@ -63,12 +63,12 @@ class _EventoFormState extends State<EventoForm> {
             children: <Widget>[
               TextFormField(
                 initialValue: _formData['nome'],
-                decoration: InputDecoration(labelText: "Nome"),
+                decoration: InputDecoration(labelText: "Nome do evento"),
                 validator: (value) {
                   if (value == null || value
                       .trim()
                       .isEmpty) {
-                    return 'nome inválido';
+                    return 'Nome inválido';
                   }
 
                   if (value
@@ -89,7 +89,7 @@ class _EventoFormState extends State<EventoForm> {
                   if (value == null || value
                       .trim()
                       .isEmpty) {
-                    return 'nome inválido';
+                    return 'Nome inválido';
                   }
 
                   if (value
@@ -110,7 +110,7 @@ class _EventoFormState extends State<EventoForm> {
                   if (value == null || value
                       .trim()
                       .isEmpty) {
-                    return 'nome inválido';
+                    return 'Nome inválido';
                   }
 
                   if (value
