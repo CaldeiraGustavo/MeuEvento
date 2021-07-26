@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
-
-import 'package:meu_evento/app/provider/Events.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:meu_evento/app/db/Events.dart';
 import 'package:provider/provider.dart';
-
+import 'package:firebase_core/firebase_core.dart';
 import 'app/routes/app_routes.dart';
 import 'app/views/evento_form.dart';
 import 'app/views/evento_list.dart';
 
-void main() {
+void main() async {
+  //FirebaseFirestore.instance.collection('Teste').doc('teste').set({"nome": "teste"});
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 

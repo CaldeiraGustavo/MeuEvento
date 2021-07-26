@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meu_evento/app/models/Evento.dart';
-import 'package:meu_evento/app/provider/Events.dart';
+import 'package:meu_evento/app/db/Events.dart';
 import 'package:provider/provider.dart';
 
 class EventoForm extends StatefulWidget {
@@ -27,7 +27,7 @@ class _EventoFormState extends State<EventoForm> {
   void changeDependencies() {
     super.didChangeDependencies();
     final Evento evento =
-        ModalRoute.of(context)!.settings.arguments.toString() as Evento;
+    ModalRoute.of(context)!.settings.arguments.toString() as Evento;
     _loadFormData(evento);
   }
 

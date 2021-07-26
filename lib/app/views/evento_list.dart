@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:meu_evento/app/components/event_tile.dart';
 import 'package:meu_evento/app/routes/app_routes.dart';
 import 'package:provider/provider.dart';
-import 'package:meu_evento/app/provider/Events.dart';
+import 'package:meu_evento/app/db/Events.dart';
 
 class EventoList extends StatelessWidget {
   @override
