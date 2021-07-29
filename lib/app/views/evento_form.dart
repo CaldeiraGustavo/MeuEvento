@@ -1,163 +1,140 @@
 import 'package:flutter/material.dart';
-import 'package:meu_evento/app/models/Evento.dart';
+import 'package:meu_evento/app/db/events_database.dart';
+import 'package:meu_evento/app/models/event.dart';
 import 'package:meu_evento/app/db/Events.dart';
+import 'package:meu_evento/app/widget/NoteFormWidget.dart';
 import 'package:provider/provider.dart';
 
 class EventoForm extends StatefulWidget {
+  final Event? evento;
+
+  const EventoForm({
+    Key? key,
+    this.evento,
+  }) : super(key: key);
+
   @override
   _EventoFormState createState() => _EventoFormState();
 }
 
 class _EventoFormState extends State<EventoForm> {
   final _form = GlobalKey<FormState>();
-  final Map<String, String> _formData = {};
 
-  void _loadFormData(Evento evento) {
-    if (evento != null) {
-      _formData['id'] = evento.id;
-      _formData['nome'] = evento.nome;
-      _formData['conjuge1'] = evento.conjuge1;
-      _formData['conjuge2'] = evento.conjuge2;
-      _formData['convidados'] = evento.convidados.toString();
-      _formData['Data'] = evento.data.toString();
-    }
-  }
+  late String nome;
+  late String conjuge1;
+  late String conjuge2;
+  late int qtdConvidados;
+
+  late String dataEvento;
 
   @override
-  void changeDependencies() {
-    super.didChangeDependencies();
-    final Evento evento =
-    ModalRoute.of(context)!.settings.arguments.toString() as Evento;
-    _loadFormData(evento);
+  void initState() {
+    super.initState();
+
+    nome = widget.evento?.nome ?? '';
+    conjuge1 = widget.evento?.conjuge1 ?? '';
+    conjuge2 = widget.evento?.conjuge2 ?? '';
+    qtdConvidados = widget.evento?.qtdConvidados ?? 0;
   }
 
+  //final Map<String, String> _formData = {};
+
+//  void _loadFormData(Event evento) {
+//    if (evento != null) {
+//      _formData['id'] = evento.id as String;
+//      _formData['nome'] = evento.nome;
+//      _formData['conjuge1'] = evento.conjuge1;
+//      _formData['conjuge2'] = evento.conjuge2;
+//      _formData['convidados'] = evento.qtdConvidados.toString();
+//      //_formData['Data'] = evento.data.toString();
+//    }
+//  }
+
+//  @override
+//  void changeDependencies() {
+//    super.didChangeDependencies();
+//    final Event evento =
+//    ModalRoute.of(context)!.settings.arguments.toString() as Event;
+//    _loadFormData(evento);
+//  }
+//onChangedTitle: (title) => setState(() => this.title = title),
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Formulário de Evento'), actions: <Widget>[
-        IconButton(icon: Icon(Icons.save), onPressed: () {
-          final isValid = _form.currentState!.validate();
-
-          if (isValid) {
-            _form.currentState!.save();
-
-            Provider.of<Events>(context, listen: false).put(
-              Evento(
-                id: _formData['id'].toString(),
-                nome: _formData['nome'].toString(),
-                conjuge1: _formData['conjuge1'].toString(),
-                conjuge2: _formData['conjuge2'].toString(),
-                data: _formData['data'].toString(),
-                convidados: _formData['convidados'].toString(),
-              ),
-            );
-            Navigator.of(context).pop();
-          }
-        }),
-      ]),
+      appBar: AppBar(actions: [buildButton()]),
       body: Padding(
         padding: EdgeInsets.all(15),
         child: Form(
           key: _form,
-          child: Column(
-            children: <Widget>[
-              TextFormField(
-                initialValue: _formData['nome'],
-                decoration: InputDecoration(labelText: "Nome do evento"),
-                validator: (value) {
-                  if (value == null || value
-                      .trim()
-                      .isEmpty) {
-                    return 'Nome inválido';
-                  }
-
-                  if (value
-                      .trim()
-                      .length < 3) {
-                    return 'Nome muito pequeno. No mínimo 3 letras.';
-                  }
-
-                  return null;
-                },
-                onSaved: (value) => _formData['nome'] = value!,
-              ),
-              TextFormField(
-                initialValue: _formData['conjuge1'],
-                decoration: InputDecoration(labelText: "Cônjuge 1"),
-
-                validator: (value) {
-                  if (value == null || value
-                      .trim()
-                      .isEmpty) {
-                    return 'Nome inválido';
-                  }
-
-                  if (value
-                      .trim()
-                      .length < 3) {
-                    return 'Nome muito pequeno. No mínimo 3 letras.';
-                  }
-
-                  return null;
-                },
-                onSaved: (value) => _formData['conjuge1'] = value!,
-              ),
-              TextFormField(
-                initialValue: _formData['conjuge2'],
-                decoration: InputDecoration(labelText: "Cônjuge 2"),
-
-                validator: (value) {
-                  if (value == null || value
-                      .trim()
-                      .isEmpty) {
-                    return 'Nome inválido';
-                  }
-
-                  if (value
-                      .trim()
-                      .length < 3) {
-                    return 'Nome muito pequeno. No mínimo 3 letras.';
-                  }
-
-                  return null;
-                },
-                onSaved: (value) => _formData['conjuge2'] = value!,
-
-              ),
-              TextFormField(
-                initialValue: _formData['data'],
-                decoration: InputDecoration(labelText: "Data"),
-
-                validator: (value) {
-                  if (value == null || value
-                      .trim()
-                      .isEmpty) {
-                    return 'Data inválida';
-                  }
-
-                  return null;
-                },
-                onSaved: (value) => _formData['data'] = value!,
-              ),
-              TextFormField(
-                initialValue: _formData['convidados'],
-                decoration: InputDecoration(labelText: "Convidados"),
-
-                validator: (value) {
-                  if (value == null || value
-                      .trim()
-                      .isEmpty) {
-                    return 'numero inválido';
-                  }
-
-                  return null;
-                },
-                onSaved: (value) => _formData['convidados'] = value!,
-              ),
-            ],
-          ),
+          child: NoteFormWidget(
+              Nome: nome,
+              Conjuge1: conjuge1,
+              Conjuge2: conjuge2,
+              QtdConvidados: qtdConvidados,
+              onChangedNome: (nome) => setState(() => this.nome = nome),
+              onChangedConjuge1: (conjuge1) =>
+                  setState(() => this.conjuge1 = conjuge1),
+              onChangedConjuge2: (conjuge2) =>
+                  setState(() => this.conjuge2 = conjuge2),
+              onChangedConvidados: (qtdconvidados) =>
+                  setState(() => this.qtdConvidados = qtdconvidados)),
         ),
       ),
     );
+  }
+
+  Widget buildButton() {
+    final isFormValid = nome.isEmpty && conjuge1.isNotEmpty &&
+        conjuge2.isNotEmpty;
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          onPrimary: Colors.white,
+          primary: isFormValid ? null : Colors.purpleAccent,
+        ),
+        onPressed: addOrUpdateNote,
+        //onPressed: () {  },
+        child: Text('Salvar'),
+      ),
+    );
+  }
+
+  void addOrUpdateNote() async {
+    final isValid = _form.currentState!.validate();
+
+    if (isValid) {
+      final isUpdating = widget.evento != null;
+
+      if (isUpdating) {
+        await updateNote();
+      } else {
+        await addNote();
+      }
+      Navigator.of(context).pop();
+    }
+  }
+
+  Future updateNote() async {
+    final event = widget.evento!.copy(
+      nome: nome,
+      conjuge1: conjuge1,
+      conjuge2: conjuge2,
+      qtdConvidados: qtdConvidados,
+    );
+
+    await EventDatabase.instance.update(event);
+  }
+
+  Future addNote() async {
+    final note = Event(
+      nome: nome,
+      conjuge1: conjuge1,
+      conjuge2: conjuge2,
+      qtdConvidados: qtdConvidados,
+      dataEvento: DateTime.now(),
+    );
+
+    await EventDatabase.instance.create(note);
   }
 }
