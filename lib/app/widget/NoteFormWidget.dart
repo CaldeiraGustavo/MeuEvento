@@ -37,6 +37,8 @@ class NoteFormWidget extends StatelessWidget {
               SizedBox(height: 16),
               buildConvidados(),
               SizedBox(height: 8),
+              buildDataEvento(),
+              SizedBox(height: 8),
             ],
           ),
         ),
@@ -111,6 +113,22 @@ class NoteFormWidget extends StatelessWidget {
           hintStyle: TextStyle(color: Colors.white, fontSize: 10),
         ),
       );
+
+  Widget buildDataEvento() => TextFormField(
+    keyboardType: TextInputType.datetime,
+    maxLines: 1,
+    style: TextStyle(
+      color: Colors.white,
+      fontWeight: FontWeight.bold,
+      fontSize: 20,
+    ),
+    decoration: InputDecoration(
+      labelText: "Data",
+      border: InputBorder.none,
+      hintText: 'Data da cerimônia',
+      hintStyle: TextStyle(color: Colors.white, fontSize: 10),
+    ),
+  );
 }
 
 //          Column(

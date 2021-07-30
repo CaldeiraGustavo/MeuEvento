@@ -52,7 +52,7 @@ class _NavigationState extends State<Navigation> {
         items: [
           BottomNavigationBarItem(
             icon: new Icon(Icons.home),
-            label: 'Info',
+            label: 'Detalhes',
           ),
           BottomNavigationBarItem(
             icon: new Icon(Icons.watch_later),
