@@ -56,7 +56,7 @@ class _EventDetailPageState extends State<EventDetailPage> {
                     ),
                     SizedBox(height: 8),
                     Text(
-                      DateFormat.yMMMd().format(note.dataEvento),
+                      widget.noteId.toString(),
                       style: TextStyle(color: Colors.white38),
                     ),
                     SizedBox(height: 8),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:meu_evento/app/db/Events.dart';
+import 'package:meu_evento/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'app/routes/app_routes.dart';
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -58,7 +60,7 @@ class MyApp extends StatelessWidget {
         title: title,
         themeMode: ThemeMode.light,
         theme: ThemeData(
-          primaryColor: Colors.purpleAccent,
+          primaryColor: kButtonColor,
           scaffoldBackgroundColor: Colors.deepPurpleAccent,
           appBarTheme: AppBarTheme(
             backgroundColor: Colors.transparent,

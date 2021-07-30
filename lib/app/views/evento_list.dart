@@ -4,7 +4,9 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:meu_evento/app/models/event.dart';
 import 'package:meu_evento/app/db/events_database.dart';
 import 'package:meu_evento/app/views/evento_form.dart';
+import 'package:meu_evento/app/views/navigation_page.dart';
 import 'package:meu_evento/app/widget/note_card_widget.dart';
+import 'package:meu_evento/constants.dart';
 
 import 'event_detail_page.dart';
 import 'event_edit_page.dart';
@@ -56,7 +58,7 @@ class _EventList extends State <EventoList> {
             : buildNotes(),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.purpleAccent,
+        backgroundColor: kButtonColor,
         child: Icon(Icons.add),
         onPressed: () async {
           await Navigator.of(context).push(
@@ -82,7 +84,7 @@ class _EventList extends State <EventoList> {
           return GestureDetector(
             onTap: () async {
               await Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => EventDetailPage(noteId: note.id!),
+                builder: (context) => Navigation(noteId: note.id!),
               ));
 
               refreshNotes();
