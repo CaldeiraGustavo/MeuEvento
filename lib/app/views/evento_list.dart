@@ -80,13 +80,11 @@ class _EventList extends State <EventoList> {
         crossAxisSpacing: 4,
         itemBuilder: (context, index) {
           final note = events[index];
-
           return GestureDetector(
             onTap: () async {
               await Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => Navigation(noteId: note.id!),
               ));
-
               refreshNotes();
             },
             child: NoteCardWidget(note: note, index: index),

@@ -67,7 +67,7 @@ class _EventDetailPageState extends State<EventDetailPage> {
                     ),
                     SizedBox(height: 8),
                     Text(
-                      DateFormat("'Data:' dd/MM/yyyy").format(note.dataEvento),
+                      note.dataEvento,
                       style: TextStyle(color: Colors.white, fontSize: 22),
                     ),
                     SizedBox(height: 8),
@@ -93,11 +93,11 @@ class _EventDetailPageState extends State<EventDetailPage> {
       });
 
   Widget deleteButton() => IconButton(
-        icon: Icon(Icons.delete),
-        onPressed: () async {
-          await EventDatabase.instance.delete(widget.noteId);
+    icon: Icon(Icons.delete),
+    onPressed: () async {
+      await EventDatabase.instance.delete(widget.noteId);
 
-          Navigator.of(context).pop();
-        },
-      );
+      Navigator.of(context).pop();
+    },
+  );
 }

@@ -21,6 +21,7 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
   late String conjuge1;
   late String conjuge2;
   late int qtdConvidados;
+  late String dataEvento;
 
   @override
   void initState() {
@@ -30,7 +31,7 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
     conjuge1 = widget.event?.conjuge1 ?? '';
     conjuge2 = widget.event?.conjuge2 ?? '';
     qtdConvidados = widget.event?.qtdConvidados ?? 0;
-    //data = widget.note?.description ?? '';
+    dataEvento = widget.event?.dataEvento ?? '';
   }
 
   @override
@@ -45,13 +46,16 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
             Conjuge1: conjuge1,
             Conjuge2: conjuge2,
             QtdConvidados: qtdConvidados,
-            onChangedNome: (isImportant) => setState(() => this.nome == nome),
-            onChangedConjuge1: (number) =>
-                setState(() => this.conjuge1 = number),
-            onChangedConjuge2: (title) => setState(() => this.nome = title),
-            onChangedConvidados: (description) =>
-                setState(() => this.nome = nome),
-          ),
+              DataEvento: dataEvento,
+              onChangedNome: (nome) => setState(() => this.nome = nome),
+              onChangedConjuge1: (conjuge1) =>
+                  setState(() => this.conjuge1 = conjuge1),
+              onChangedConjuge2: (conjuge2) =>
+                  setState(() => this.conjuge2 = conjuge2),
+              onChangedConvidados: (qtdconvidados) =>
+                  setState(() => this.qtdConvidados = qtdconvidados as int),
+              onChangedData: (dataEvento) =>
+                  setState(() => this.dataEvento = dataEvento)),
         ),
       );
 
@@ -104,7 +108,7 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
       conjuge1: conjuge1,
       conjuge2: conjuge2,
       qtdConvidados: qtdConvidados,
-      dataEvento: DateTime.now(),
+      dataEvento: dataEvento,
     );
 
     await EventDatabase.instance.create(note);

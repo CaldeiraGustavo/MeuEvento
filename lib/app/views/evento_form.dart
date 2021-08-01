@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meu_evento/app/db/events_database.dart';
 import 'package:meu_evento/app/models/event.dart';
-import 'package:meu_evento/app/db/Events.dart';
 import 'package:meu_evento/app/widget/NoteFormWidget.dart';
-import 'package:provider/provider.dart';
 
 class EventoForm extends StatefulWidget {
   final Event? evento;
@@ -24,40 +22,18 @@ class _EventoFormState extends State<EventoForm> {
   late String conjuge1;
   late String conjuge2;
   late int qtdConvidados;
-
   late String dataEvento;
 
   @override
   void initState() {
     super.initState();
-
     nome = widget.evento?.nome ?? '';
     conjuge1 = widget.evento?.conjuge1 ?? '';
     conjuge2 = widget.evento?.conjuge2 ?? '';
     qtdConvidados = widget.evento?.qtdConvidados ?? 0;
+    dataEvento = widget.evento?.dataEvento ?? '';
   }
 
-  //final Map<String, String> _formData = {};
-
-//  void _loadFormData(Event evento) {
-//    if (evento != null) {
-//      _formData['id'] = evento.id as String;
-//      _formData['nome'] = evento.nome;
-//      _formData['conjuge1'] = evento.conjuge1;
-//      _formData['conjuge2'] = evento.conjuge2;
-//      _formData['convidados'] = evento.qtdConvidados.toString();
-//      //_formData['Data'] = evento.data.toString();
-//    }
-//  }
-
-//  @override
-//  void changeDependencies() {
-//    super.didChangeDependencies();
-//    final Event evento =
-//    ModalRoute.of(context)!.settings.arguments.toString() as Event;
-//    _loadFormData(evento);
-//  }
-//onChangedTitle: (title) => setState(() => this.title = title),
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,13 +47,16 @@ class _EventoFormState extends State<EventoForm> {
               Conjuge1: conjuge1,
               Conjuge2: conjuge2,
               QtdConvidados: qtdConvidados,
+              DataEvento: dataEvento,
               onChangedNome: (nome) => setState(() => this.nome = nome),
               onChangedConjuge1: (conjuge1) =>
                   setState(() => this.conjuge1 = conjuge1),
               onChangedConjuge2: (conjuge2) =>
                   setState(() => this.conjuge2 = conjuge2),
               onChangedConvidados: (qtdconvidados) =>
-                  setState(() => this.qtdConvidados = qtdconvidados)),
+                  setState(() => this.qtdConvidados = int.parse(qtdconvidados)),
+              onChangedData: (dataEvento) =>
+                  setState(() => this.dataEvento = dataEvento)),
         ),
       ),
     );
@@ -121,6 +100,7 @@ class _EventoFormState extends State<EventoForm> {
       conjuge1: conjuge1,
       conjuge2: conjuge2,
       qtdConvidados: qtdConvidados,
+        dataEvento: dataEvento
     );
 
     await EventDatabase.instance.update(event);
@@ -132,7 +112,7 @@ class _EventoFormState extends State<EventoForm> {
       conjuge1: conjuge1,
       conjuge2: conjuge2,
       qtdConvidados: qtdConvidados,
-      dataEvento: DateTime.now(),
+      dataEvento: dataEvento,
     );
 
     await EventDatabase.instance.create(note);
