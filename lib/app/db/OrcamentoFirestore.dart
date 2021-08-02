@@ -9,15 +9,25 @@ import 'package:meu_evento/app/models/event.dart';
 class OrcamentoFirestore {
   final CollectionReference orcamento = FirebaseFirestore.instance.collection('orcamento');
 
-  Future<void> store() {
+  Future<void> store(Orcamento orc) {
     // Call the user's CollectionReference to add a new user
     return orcamento
         .add({
-      'ordem': "1",
-      'nome': "Florista"
+          'id': orc.id,
+          'descricao': orc.descricao,
+          'valor': orc.valor,
+          'tipo': orc.tipo,
     })
-        .then((value) => print("User Added"))
-        .catchError((error) => print("Failed to add user: $error"));
+        .then((value) => print("Adicionado"))
+        .catchError((error) => print("Erro: $error"));
+  }
+
+  Future<void> delete() {
+    return orcamento
+        .doc('stV5gQNJN70FEXzAd78L')
+        .delete()
+        .then((value) => print("deletado"))
+        .catchError((error) => print("Erro: $error"));
   }
 
   Future<void> getData() async {

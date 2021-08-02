@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:meu_evento/app/db/OrcamentoFirestore.dart';
 import 'package:meu_evento/app/models/Orcamento.dart';
+import 'package:meu_evento/app/widget/new_transaction.dart';
 
 class OrcamentoList extends StatefulWidget {
   const OrcamentoList({Key? key}) : super(key: key);
@@ -13,7 +14,7 @@ class OrcamentoList extends StatefulWidget {
 
 class _OrcamentoListState extends State<OrcamentoList> {
   final List<Orcamento> orcamentos = [];
-  final Function deleteTx = () => {};
+
   @override
   void initState() {
     super.initState();
@@ -24,9 +25,11 @@ class _OrcamentoListState extends State<OrcamentoList> {
   }
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 700,
-      child: StreamBuilder<QuerySnapshot>(
+    return Scaffold(
+      appBar: AppBar(
+        actions: [addButton(context)],
+      ),
+      body: StreamBuilder<QuerySnapshot>(
             stream: FirebaseFirestore.instance.collection('orcamento').snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
@@ -72,5 +75,20 @@ class _OrcamentoListState extends State<OrcamentoList> {
           },
         ),
     );
+  }
+
+  Widget addButton(BuildContext ctx) => IconButton(
+      icon: Icon(Icons.add),
+      onPressed: () async {
+        showModalBottomSheet(
+            context: ctx,
+            builder: (_) {
+              return NewTransaction();
+            });
+      });
+
+  void deleteTx(id) async {
+    OrcamentoFirestore orc = new OrcamentoFirestore();
+    await orc.delete();
   }
 }
