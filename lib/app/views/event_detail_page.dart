@@ -55,14 +55,25 @@ class _EventDetailPageState extends State<EventDetailPage> {
                       ),
                     ),
                     SizedBox(height: 8),
+                    SizedBox(height: 8),
                     Text(
-                      widget.noteId.toString(),
-                      style: TextStyle(color: Colors.white38),
+                      note.conjuge1,
+                      style: TextStyle(color: Colors.white, fontSize: 22),
                     ),
                     SizedBox(height: 8),
                     Text(
-                      note.nome,
-                      style: TextStyle(color: Colors.white70, fontSize: 18),
+                      note.conjuge2,
+                      style: TextStyle(color: Colors.white, fontSize: 22),
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      note.dataEvento,
+                      style: TextStyle(color: Colors.white, fontSize: 22),
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      "Convidados: " + note.qtdConvidados.toString(),
+                      style: TextStyle(color: Colors.white, fontSize: 22),
                     )
                   ],
                 ),
@@ -82,11 +93,11 @@ class _EventDetailPageState extends State<EventDetailPage> {
       });
 
   Widget deleteButton() => IconButton(
-        icon: Icon(Icons.delete),
-        onPressed: () async {
-          await EventDatabase.instance.delete(widget.noteId);
+    icon: Icon(Icons.delete),
+    onPressed: () async {
+      await EventDatabase.instance.delete(widget.noteId);
 
-          Navigator.of(context).pop();
-        },
-      );
+      Navigator.of(context).pop();
+    },
+  );
 }

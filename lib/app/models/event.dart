@@ -20,7 +20,7 @@ class Event {
   final String conjuge1;
   final String conjuge2;
   final int qtdConvidados;
-  final DateTime dataEvento;
+  final String dataEvento;
 
   const Event({
     this.id,
@@ -37,7 +37,7 @@ class Event {
     String? conjuge1,
     String? conjuge2,
     int? qtdConvidados,
-    DateTime? dataEvento,
+    String? dataEvento,
   }) =>
       Event(
         id: id ?? this.id,
@@ -54,7 +54,7 @@ class Event {
         conjuge1: json[EventFields.conjuge1] as String,
         conjuge2: json[EventFields.conjuge2] as String,
         qtdConvidados: json[EventFields.convidados] as int,
-        dataEvento: DateTime.parse(json[EventFields.data] as String),
+        dataEvento: json[EventFields.data] as String,
       );
 
   Map<String, Object?> toJson() => {
@@ -63,6 +63,6 @@ class Event {
         EventFields.conjuge1: conjuge1,
         EventFields.conjuge2: conjuge2,
         EventFields.convidados: qtdConvidados,
-        EventFields.data: dataEvento.toIso8601String(),
+    EventFields.data: dataEvento,
       };
 }
