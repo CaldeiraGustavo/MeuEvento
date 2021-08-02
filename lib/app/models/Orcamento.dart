@@ -1,6 +1,6 @@
 // final String eventsNotes = 'events';
 
-class Fields {
+class OrcamentoFields {
   static final List<String> values = [
     id, descricao, valor, tipo
   ];
@@ -15,7 +15,7 @@ class Orcamento {
   final int? id;
   final String descricao;
   final double valor;
-  final int tipo;
+  final String tipo;
 
   const Orcamento({
   required this.id,
@@ -28,7 +28,7 @@ class Orcamento {
     int? id,
     String? descricao,
     double? valor,
-    int? tipo,
+    String? tipo,
   }) =>
       Orcamento(
         id: id ?? this.id,
@@ -38,16 +38,18 @@ class Orcamento {
       );
 
   static Orcamento fromJson(Map<String, Object?> json) => Orcamento(
-    id: json[Fields.id] as int?,
-    descricao: json[Fields.descricao] as String,
-    valor: json[Fields.valor] as double,
-    tipo: json[Fields.tipo] as int,
+    id: json[OrcamentoFields.id] as int?,
+    descricao: json[OrcamentoFields.descricao] as String,
+    valor: json[OrcamentoFields.valor] as double,
+    tipo: json[OrcamentoFields.tipo] as String,
   );
 
-  Map<String, Object?> toJson() => {
-    Fields.id: id,
-    Fields.descricao: descricao,
-    Fields.valor: valor,
-    Fields.tipo: tipo,
-  };
+  Map<String, Object?> toJson() {
+    return {
+      OrcamentoFields.id: id,
+      OrcamentoFields.descricao: descricao,
+      OrcamentoFields.valor: valor,
+      OrcamentoFields.tipo: tipo,
+    };
+  }
 }
