@@ -48,6 +48,9 @@ class _OrcamentoListState extends State<OrcamentoList> {
                     elevation: 5,
                     child: ListTile(
                       leading: CircleAvatar(
+                          backgroundColor: data['tipo'] == "RECEBIDO"
+                                ? Colors.green.shade600
+                                : Colors.red,
                           radius: 30,
                           child: Container(
                             padding: EdgeInsets.all(10),
