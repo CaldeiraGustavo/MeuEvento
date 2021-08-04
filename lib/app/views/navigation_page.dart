@@ -1,7 +1,10 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
+import 'package:meu_evento/app/views/convidados_page.dart';
+import 'package:meu_evento/app/views/cronograma_page.dart';
 import 'package:meu_evento/app/views/event_detail_page.dart';
 import 'package:meu_evento/app/views/transaction_page.dart';
+import 'package:meu_evento/app/views/upload_page.dart';
 
 class Navigation extends StatefulWidget {
   final int noteId;
@@ -23,8 +26,11 @@ class _NavigationState extends State<Navigation> {
     setState(() => {
       pageList = <Widget>[
         EventDetailPage(noteId: widget.noteId),
-        OrcamentoList()
-      ]
+            cronogramaPage(),
+            convidadosPage(),
+            OrcamentoList(),
+            uploadPage(),
+          ]
     });
   }
 
