@@ -47,7 +47,7 @@ class _OrcamentoListState extends State<OrcamentoList> {
                     elevation: 5,
                     child: ListTile(
                       leading: CircleAvatar(
-                          backgroundColor: data['tipo'] == "RECEBIDO"
+                          backgroundColor: data['tipo'] == "Recebido"
                                 ? Colors.green.shade600
                                 : Colors.red,
                           radius: 30,
@@ -67,7 +67,7 @@ class _OrcamentoListState extends State<OrcamentoList> {
                       trailing: IconButton(
                         icon: Icon(Icons.delete),
                         color: Colors.red,
-                        onPressed: () => deleteTx(data['id']),
+                        onPressed: () => deleteTx(document.reference.id),
                       ),
                     ),
                   );
@@ -91,6 +91,6 @@ class _OrcamentoListState extends State<OrcamentoList> {
 
   void deleteTx(id) async {
     OrcamentoFirestore orc = new OrcamentoFirestore();
-    await orc.delete();
+    orc.delete(id);
   }
 }

@@ -12,7 +12,6 @@ class OrcamentoFirestore {
     // Call the user's CollectionReference to add a new user
     return orcamento
         .add({
-          'id': orc.id,
           'descricao': orc.descricao,
           'valor': orc.valor,
           'tipo': orc.tipo,
@@ -21,9 +20,9 @@ class OrcamentoFirestore {
         .catchError((error) => print("Erro: $error"));
   }
 
-  Future<void> delete() {
+  Future<void> delete(id) {
     return orcamento
-        .doc('stV5gQNJN70FEXzAd78L')
+        .doc(id)
         .delete()
         .then((value) => print("deletado"))
         .catchError((error) => print("Erro: $error"));

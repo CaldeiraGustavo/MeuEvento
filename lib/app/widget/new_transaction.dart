@@ -27,16 +27,15 @@ class _NewTransactionState extends State<NewTransaction> {
     }
     OrcamentoFirestore fire = new OrcamentoFirestore();
     Orcamento orc = new Orcamento(
-        id: 4,
         descricao: enteredTitle,
         valor: enteredAmount,
-        tipo: "GASTO"
+        tipo: dropdownValue
     );
     fire.store(orc);
 
     Navigator.of(context).pop();
   }
-
+  String dropdownValue = 'Recebido';
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -45,21 +44,40 @@ class _NewTransactionState extends State<NewTransaction> {
         padding: EdgeInsets.all(10),
         margin: EdgeInsets.all(5),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             TextField(
-              decoration: InputDecoration(labelText: 'Title'),
+              decoration: InputDecoration(labelText: 'Descrição'),
               controller: titleController,
               onSubmitted: (_) => submitData,
             ),
             TextField(
-              decoration: InputDecoration(labelText: 'Price'),
+              decoration: InputDecoration(labelText: 'Preço'),
               controller: amountController,
               keyboardType: TextInputType.number,
               onSubmitted: (_) => submitData,
             ),
+            DropdownButton<String>(
+              value: dropdownValue,
+              underline: Container(
+                height: 2,
+                color: Colors.deepPurpleAccent,
+              ),
+              onChanged: (String? newValue) {
+                setState(() {
+                  dropdownValue = newValue!;
+                });
+              },
+              items: <String>['Gasto', 'Recebido']
+                  .map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+            ),
             TextButton(
-                child: Text('Add Transaction'),
+                child: Text('Adicionar'),
                 onPressed: () => submitData())
           ],
         ),

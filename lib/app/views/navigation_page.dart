@@ -28,11 +28,11 @@ class _NavigationState extends State<Navigation> {
     setState(() => {
       pageList = <Widget>[
         EventDetailPage(noteId: widget.noteId),
-            cronogramaPage(),
-            convidadosPage(),
-            OrcamentoList(),
-            uploadPage(),
-          ]
+        cronogramaPage(),
+        convidadosPage(),
+        OrcamentoList(),
+        uploadPage(),
+      ]
     });
   }
 
