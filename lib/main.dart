@@ -1,8 +1,8 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:meu_evento/app/views/login_page.dart';
 import 'package:meu_evento/constants.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'app/views/evento_list.dart';
 
 
 Future main() async {
@@ -21,17 +21,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: title,
-        themeMode: ThemeMode.light,
-        theme: ThemeData(
-          primaryColor: kButtonColor,
-          scaffoldBackgroundColor: Colors.indigo,
-          appBarTheme: AppBarTheme(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-          ),
-        ),
-        home: EventoList(),
+    debugShowCheckedModeBanner: false,
+    title: title,
+    themeMode: ThemeMode.light,
+    theme: ThemeData(
+      primaryColor: kButtonColor,
+      scaffoldBackgroundColor: Colors.indigo,
+      appBarTheme: AppBarTheme(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
+    ),
+        home: LoginScreen(),
       );
 }
