@@ -1,6 +1,6 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-import 'package:meu_evento/app/models/event.dart';
+import 'package:meu_evento/app/models/Evento.dart';
 
 class EventDatabase {
   static final EventDatabase instance = EventDatabase._init();

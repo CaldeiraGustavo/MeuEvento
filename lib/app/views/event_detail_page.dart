@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:meu_evento/app/models/event.dart';
+import 'package:meu_evento/app/models/Evento.dart';
 import 'package:meu_evento/app/db/events_database.dart';
 
 import 'event_edit_page.dart';

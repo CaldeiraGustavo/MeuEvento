@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:meu_evento/app/models/Orcamento.dart';
-import 'package:meu_evento/app/models/event.dart';
+import 'package:meu_evento/app/models/Evento.dart';
 
 class OrcamentoFirestore {
   final CollectionReference orcamento = FirebaseFirestore.instance.collection('orcamento');

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meu_evento/app/db/events_database.dart';
-import 'package:meu_evento/app/models/event.dart';
+import 'package:meu_evento/app/models/Evento.dart';
 import 'package:meu_evento/app/widget/NoteFormWidget.dart';
 
 class EventoForm extends StatefulWidget {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meu_evento/app/routes/app_routes.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:meu_evento/app/models/event.dart';
+import 'package:meu_evento/app/models/Evento.dart';
 import 'package:meu_evento/app/db/events_database.dart';
 import 'package:meu_evento/app/views/evento_form.dart';
 import 'package:meu_evento/app/views/navigation_page.dart';
