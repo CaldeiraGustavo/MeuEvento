@@ -70,7 +70,7 @@ class _EventoFormState extends State<EventoForm> {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           onPrimary: Colors.white,
-          primary: isFormValid ? null : Colors.purpleAccent,
+          primary: isFormValid ? null : Colors.pinkAccent.shade100,
         ),
         onPressed: addOrUpdateNote,
         //onPressed: () {  },

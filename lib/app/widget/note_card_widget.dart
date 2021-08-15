@@ -1,5 +1,5 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:meu_evento/app/models/Evento.dart';
 
 final _lightColors = [
@@ -23,11 +23,11 @@ class NoteCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = Colors.white60;
+    final color = Colors.black12;
     //Date dt = Date.parse(note.dataEvento);
     //final date = DateFormat.yMMMd().format(dt);
     final date = note.dataEvento;
-    final minHeight = 80.00;
+    final minHeight = 50.00;
 
     return Card(
       color: color,
@@ -40,13 +40,15 @@ class NoteCardWidget extends StatelessWidget {
           children: [
             Text(
               date,
-              style: TextStyle(color: Colors.grey.shade700),
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.white),
             ),
             SizedBox(height: 4),
             Text(
               note.nome,
+              textAlign: TextAlign.center,
               style: TextStyle(
-                color: Colors.black,
+                color: Colors.white,
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),

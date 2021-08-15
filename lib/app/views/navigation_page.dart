@@ -6,8 +6,6 @@ import 'package:meu_evento/app/views/event_detail_page.dart';
 import 'package:meu_evento/app/views/transaction_page.dart';
 import 'package:meu_evento/app/views/upload_page.dart';
 
-import '../../constants.dart';
-
 class Navigation extends StatefulWidget {
   final int noteId;
   const Navigation({
@@ -50,7 +48,9 @@ class _NavigationState extends State<Navigation> {
         child: pageList[pageIndex],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: kBackgroundColor,
+        backgroundColor: Colors.black87,
+        unselectedItemColor: Colors.pinkAccent,
+        selectedItemColor: Colors.white,
         type: BottomNavigationBarType.fixed,
         currentIndex: pageIndex, // this will be set when a new tab is tapped
         onTap: (value) {

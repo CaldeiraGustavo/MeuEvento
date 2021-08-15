@@ -37,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Icons.email,
                 color: Colors.white,
               ),
-              hintText: 'Enter your Email',
+              hintText: 'Digite seu Email',
               hintStyle: kHintTextStyle,
             ),
           ),
@@ -72,7 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Icons.lock,
                 color: Colors.white,
               ),
-              hintText: 'Enter your Password',
+              hintText: 'Digite sua senha',
               hintStyle: kHintTextStyle,
             ),
           ),
@@ -105,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
             data: ThemeData(unselectedWidgetColor: Colors.white),
             child: Checkbox(
               value: _rememberMe,
-              checkColor: Colors.green,
+              checkColor: kContentColorLightTheme,
               activeColor: Colors.white,
               onChanged: (value) {
                 setState(() {
@@ -137,11 +137,11 @@ class _LoginScreenState extends State<LoginScreen> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
         ),
-        color: Colors.white,
+        color: Colors.pinkAccent.shade100,
         child: Text(
           'LOGIN',
           style: TextStyle(
-            color: Color(0xFF527DAA),
+            color: Colors.white,
             letterSpacing: 1.5,
             fontSize: 18.0,
             fontWeight: FontWeight.bold,
@@ -156,7 +156,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Column(
       children: <Widget>[
         Text(
-          '- OU -',
+          ' OU ',
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.w400,
@@ -202,13 +202,13 @@ class _LoginScreenState extends State<LoginScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           _buildSocialBtn(
-            () => print('Login with Facebook'),
+            () => print('Login com Facebook'),
             AssetImage(
               'assets/logos/facebook.jpg',
             ),
           ),
           _buildSocialBtn(
-            () => print('Login with Google'),
+                () => print('Login com Google'),
             AssetImage(
               'assets/logos/google.jpg',
             ),
@@ -263,10 +263,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      Color(0xFF73AEF5),
-                      Color(0xFF61A4F1),
-                      Color(0xFF478DE0),
-                      Color(0xFF398AE5),
+                      kContentColorLightTheme,
+                      kContentColorLightTheme,
+                      kContentColorLightTheme,
+                      kContentColorLightTheme,
                     ],
                     stops: [0.1, 0.4, 0.7, 0.9],
                   ),
@@ -284,11 +284,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        'Sign In',
+                        'Meu Evento',
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Colors.pinkAccent.shade100,
                           fontFamily: 'OpenSans',
-                          fontSize: 30.0,
+                          fontSize: 40.0,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
