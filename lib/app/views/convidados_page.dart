@@ -1,6 +1,12 @@
+import 'dart:io';
+
 import 'package:csv/csv.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter/widgets.dart';
+import 'package:path/path.dart';
 
 class convidadosPage extends StatefulWidget {
   @override
@@ -10,15 +16,21 @@ class convidadosPage extends StatefulWidget {
 class _convidadosPageState extends State<convidadosPage> {
   List<List<dynamic>> data = [];
 
-  loadAsset() async {
-    final myData = await rootBundle.loadString('assets/teste.csv');
-    List<List<dynamic>> csvTable = CsvToListConverter().convert(myData);
+  UploadTask? task;
+  File? file;
 
+  loadAsset() async {
+    selectFile();
+    //final myData = await rootBundle.loadString('assets/teste.csv');
+    final myData = await rootBundle.loadString(
+        '/data/user/0/com.meuevento.meu_evento/cache/file_picker/teste.csv');
+    List<List<dynamic>> csvTable = CsvToListConverter().convert(myData);
     data = csvTable;
   }
 
   @override
   Widget build(BuildContext context) {
+    final fileName = file != null ? basename(file!.path) : 'No File Selected';
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
@@ -57,5 +69,13 @@ class _convidadosPageState extends State<convidadosPage> {
         ),
       ),
     );
+  }
+
+  Future selectFile() async {
+    final result = await FilePicker.platform.pickFiles(allowMultiple: false);
+    print(result!.files.first.path);
+    if (result == null) return;
+    final path = result.files.single.path!;
+    setState(() => file = File(path));
   }
 }
