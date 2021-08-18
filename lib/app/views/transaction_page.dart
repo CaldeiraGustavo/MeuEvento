@@ -5,7 +5,11 @@ import 'package:meu_evento/app/models/Orcamento.dart';
 import 'package:meu_evento/app/widget/new_transaction.dart';
 
 class OrcamentoList extends StatefulWidget {
-  const OrcamentoList({Key? key}) : super(key: key);
+  final String noteId;
+  const OrcamentoList({
+    Key? key,
+    required this.noteId
+  }) : super(key: key);
 
   @override
   _OrcamentoListState createState() => _OrcamentoListState();
@@ -17,10 +21,6 @@ class _OrcamentoListState extends State<OrcamentoList> {
   @override
   void initState() {
     super.initState();
-    OrcamentoFirestore or = new OrcamentoFirestore();
-    or.getData().then((value) => {
-
-    });
   }
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class _OrcamentoListState extends State<OrcamentoList> {
         actions: [addButton(context)],
       ),
       body: StreamBuilder<QuerySnapshot>(
-            stream: FirebaseFirestore.instance.collection('orcamento').snapshots(),
+            stream: FirebaseFirestore.instance.collection('Evento').doc(widget.noteId).collection('orcamento').snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
             return Text('Something went wrong');

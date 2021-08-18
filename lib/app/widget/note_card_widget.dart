@@ -18,7 +18,7 @@ class NoteCardWidget extends StatelessWidget {
     required this.index,
   }) : super(key: key);
 
-  final Event note;
+  final dynamic note;
   final int index;
 
   @override
@@ -26,7 +26,7 @@ class NoteCardWidget extends StatelessWidget {
     final color = Colors.black12;
     //Date dt = Date.parse(note.dataEvento);
     //final date = DateFormat.yMMMd().format(dt);
-    final date = note.dataEvento;
+    final date = note['data'];
     final minHeight = 50.00;
 
     return Card(
@@ -45,7 +45,7 @@ class NoteCardWidget extends StatelessWidget {
             ),
             SizedBox(height: 4),
             Text(
-              note.nome,
+              note['nome'],
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.white,

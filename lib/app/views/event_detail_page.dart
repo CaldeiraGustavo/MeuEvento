@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:meu_evento/app/db/EventoFirestore.dart';
 import 'package:meu_evento/app/models/Evento.dart';
 import 'package:meu_evento/app/db/events_database.dart';
 
 import 'event_edit_page.dart';
 
 class EventDetailPage extends StatefulWidget {
-  final int noteId;
+  final dynamic note;
 
   const EventDetailPage({
     Key? key,
-    required this.noteId,
+    required this.note,
   }) : super(key: key);
 
   @override
@@ -18,8 +19,8 @@ class EventDetailPage extends StatefulWidget {
 }
 
 class _EventDetailPageState extends State<EventDetailPage> {
-  late Event note;
   bool isLoading = false;
+  dynamic note;
 
   @override
   void initState() {
@@ -30,7 +31,7 @@ class _EventDetailPageState extends State<EventDetailPage> {
 
   Future refreshNote() async {
     setState(() => isLoading = true);
-    this.note = await EventDatabase.instance.readNote(widget.noteId);
+    this.note = widget.note;
     setState(() => isLoading = false);
   }
 
@@ -47,7 +48,7 @@ class _EventDetailPageState extends State<EventDetailPage> {
                   padding: EdgeInsets.symmetric(vertical: 8),
                   children: [
                     Text(
-                      note.nome,
+                      note['nome'],
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 22,
@@ -57,22 +58,22 @@ class _EventDetailPageState extends State<EventDetailPage> {
                     SizedBox(height: 8),
                     SizedBox(height: 8),
                     Text(
-                      note.conjuge1,
+                      note['conjuge1'],
                       style: TextStyle(color: Colors.white, fontSize: 22),
                     ),
                     SizedBox(height: 8),
                     Text(
-                      note.conjuge2,
+                      note["conjuge2"],
                       style: TextStyle(color: Colors.white, fontSize: 22),
                     ),
                     SizedBox(height: 8),
                     Text(
-                      note.dataEvento,
+                      note["data"],
                       style: TextStyle(color: Colors.white, fontSize: 22),
                     ),
                     SizedBox(height: 8),
                     Text(
-                      "Convidados: " + note.qtdConvidados.toString(),
+                      "Convidados: " + note['convidados'].toString(),
                       style: TextStyle(color: Colors.white, fontSize: 22),
                     )
                   ],
@@ -95,7 +96,8 @@ class _EventDetailPageState extends State<EventDetailPage> {
   Widget deleteButton() => IconButton(
     icon: Icon(Icons.delete),
     onPressed: () async {
-      await EventDatabase.instance.delete(widget.noteId);
+      EventoFirestore evt = new EventoFirestore();
+      await evt.delete(widget.note.id);
 
       Navigator.of(context).pop();
     },

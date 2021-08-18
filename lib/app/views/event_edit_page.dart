@@ -4,7 +4,7 @@ import 'package:meu_evento/app/models/Evento.dart';
 import 'package:meu_evento/app/widget/NoteFormWidget.dart';
 
 class AddEditNotePage extends StatefulWidget {
-  final Event? event;
+  final dynamic? event;
 
   const AddEditNotePage({
     Key? key,

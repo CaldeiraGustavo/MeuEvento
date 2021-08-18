@@ -7,10 +7,10 @@ import 'package:meu_evento/app/views/transaction_page.dart';
 import 'package:meu_evento/app/views/upload_page.dart';
 
 class Navigation extends StatefulWidget {
-  final int noteId;
+  final dynamic note;
   const Navigation({
     Key? key,
-    required this.noteId,
+    required this.note,
   }) : super(key: key);
 
   @override
@@ -25,10 +25,10 @@ class _NavigationState extends State<Navigation> {
     super.initState();
     setState(() => {
       pageList = <Widget>[
-        EventDetailPage(noteId: widget.noteId),
+        EventDetailPage(note: widget.note),
         cronogramaPage(),
         convidadosPage(),
-        OrcamentoList(),
+        OrcamentoList(noteId: widget.note.id),
         uploadPage(),
       ]
     });

@@ -5,6 +5,7 @@ import 'package:meu_evento/app/models/Evento.dart';
 import 'package:meu_evento/app/views/evento_form.dart';
 import 'package:meu_evento/app/views/navigation_page.dart';
 import 'package:meu_evento/app/widget/note_card_widget.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class EventoList extends StatefulWidget {
   _EventList createState() => _EventList();
@@ -42,15 +43,20 @@ class _EventList extends State <EventoList> {
           Icon(Icons.search), SizedBox(width: 12),
         ],
       ),
-      body: Center(
-        child: isLoading
-            ? CircularProgressIndicator()
-            : events.isEmpty
-            ? Text(
-          'Sem eventos cadastrados',
-          style: TextStyle(color: Colors.white, fontSize: 24),
-        )
-            : buildNotes(),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance.collection('Evento').snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return Text('Something went wrong');
+          }
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+            case ConnectionState.waiting:
+              return Center(child: CircularProgressIndicator());
+            default:
+              return buildNotes(snapshot);
+          }
+        },
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.pinkAccent.shade100,
@@ -65,20 +71,20 @@ class _EventList extends State <EventoList> {
     );
   }
 
-  Widget buildNotes() =>
+  Widget buildNotes(snapshot) =>
       StaggeredGridView.countBuilder(
         padding: EdgeInsets.all(8),
-        itemCount: events.length,
+        itemCount: (snapshot.data!).docs.length,
         staggeredTileBuilder: (index) => StaggeredTile.fit(2),
         crossAxisCount: 4,
         mainAxisSpacing: 4,
         crossAxisSpacing: 4,
         itemBuilder: (context, index) {
-          final note = events[index];
+          final note = (snapshot.data!).docs[index];
           return GestureDetector(
             onTap: () async {
               await Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => Navigation(noteId: note.id!),
+                builder: (context) => Navigation(note: note!),
               ));
               refreshNotes();
             },
