@@ -26,12 +26,11 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
   @override
   void initState() {
     super.initState();
-
-    nome = widget.event?.nome ?? '';
-    conjuge1 = widget.event?.conjuge1 ?? '';
-    conjuge2 = widget.event?.conjuge2 ?? '';
-    qtdConvidados = widget.event?.qtdConvidados ?? 0;
-    dataEvento = widget.event?.dataEvento ?? '';
+    nome = widget.event['nome'] ?? '';
+    conjuge1 = widget.event['conjuge1'] ?? '';
+    conjuge2 = widget.event['conjuge2'] ?? '';
+    qtdConvidados = widget.event['convidados'] ?? 0;
+    dataEvento = widget.event['data'] ?? '';
   }
 
   @override
@@ -60,14 +59,14 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
       );
 
   Widget buildButton() {
-    final isFormValid = nome.isNotEmpty && conjuge2.isNotEmpty;
+    // final isFormValid = nome.isNotEmpty && conjuge2.isNotEmpty;
 
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           onPrimary: Colors.white,
-          primary: isFormValid ? null : Colors.purpleAccent,
+          primary: Colors.purpleAccent,
         ),
         onPressed: addOrUpdateNote,
         child: Text('Salvar'),

@@ -62,6 +62,7 @@ class NoteFormWidget extends StatelessWidget {
       hintText: 'Identificação da cerimônia',
       hintStyle: TextStyle(color: Colors.white, fontSize: 10),
     ),
+    controller: TextEditingController(text: this.Nome),
     validator: (title) =>
     title != null && title.isEmpty ? 'Insira o nome' : null,
     onChanged: onChangedNome,
@@ -80,6 +81,7 @@ class NoteFormWidget extends StatelessWidget {
       hintText: 'Nome do Conjuge 1',
       hintStyle: TextStyle(color: Colors.white, fontSize: 10),
     ),
+    controller: TextEditingController(text: this.Conjuge1),
     validator: (title) =>
     title != null && title.isEmpty ? 'Insira o nome' : null,
     onChanged: onChangedConjuge1,
@@ -98,6 +100,7 @@ class NoteFormWidget extends StatelessWidget {
       hintText: 'Nome do conjuge 2',
       hintStyle: TextStyle(color: Colors.white, fontSize: 10),
     ),
+    controller: TextEditingController(text: this.Conjuge2),
     validator: (title) => title != null && title.isEmpty
         ? 'Este campo não pode ser nulo'
         : null,
@@ -112,6 +115,7 @@ class NoteFormWidget extends StatelessWidget {
       fontWeight: FontWeight.bold,
       fontSize: 20,
     ),
+    controller: TextEditingController(text: this.QtdConvidados.toString()),
     decoration: InputDecoration(
       labelText: "Convidados",
       border: InputBorder.none,
@@ -139,6 +143,7 @@ class NoteFormWidget extends StatelessWidget {
       hintText: 'Data da cerimônia',
       hintStyle: TextStyle(color: Colors.white, fontSize: 10),
     ),
+    controller: TextEditingController(text: this.DataEvento),
     validator: (title) =>
     title != null && title.isEmpty
         ? 'Este campo não pode ser nulo'
