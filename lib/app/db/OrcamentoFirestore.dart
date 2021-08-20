@@ -6,7 +6,10 @@ import 'package:meu_evento/app/models/Orcamento.dart';
 import 'package:meu_evento/app/models/Evento.dart';
 
 class OrcamentoFirestore {
-  final CollectionReference orcamento = FirebaseFirestore.instance.collection('orcamento');
+  late CollectionReference orcamento;
+  OrcamentoFirestore(docId) {
+    orcamento = FirebaseFirestore.instance.collection('Evento').doc(docId).collection('Orcamento');
+  }
 
   Future<void> store(Orcamento orc) {
     // Call the user's CollectionReference to add a new user

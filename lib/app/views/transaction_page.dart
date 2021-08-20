@@ -89,12 +89,12 @@ class _OrcamentoListState extends State<OrcamentoList> {
         showModalBottomSheet(
             context: ctx,
             builder: (_) {
-              return NewTransaction();
+              return NewTransaction(noteId: widget.noteId);
             });
       });
 
   void deleteTx(id) async {
-    OrcamentoFirestore orc = new OrcamentoFirestore();
+    OrcamentoFirestore orc = new OrcamentoFirestore(widget.noteId);
     orc.delete(id);
   }
 }

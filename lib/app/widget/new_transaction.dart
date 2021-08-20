@@ -4,7 +4,11 @@ import 'package:meu_evento/app/db/OrcamentoFirestore.dart';
 import 'package:meu_evento/app/models/Orcamento.dart';
 
 class NewTransaction extends StatefulWidget {
-  NewTransaction();
+  final dynamic noteId;
+  NewTransaction({
+    Key? key,
+    required this.noteId,
+  }) : super(key: key);
 
   @override
   _NewTransactionState createState() => _NewTransactionState();
@@ -25,7 +29,7 @@ class _NewTransactionState extends State<NewTransaction> {
         enteredAmount < 0) {
       return;
     }
-    OrcamentoFirestore fire = new OrcamentoFirestore();
+    OrcamentoFirestore fire = new OrcamentoFirestore(widget.noteId);
     Orcamento orc = new Orcamento(
         descricao: enteredTitle,
         valor: enteredAmount,
