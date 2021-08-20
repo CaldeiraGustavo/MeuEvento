@@ -49,7 +49,7 @@ dependencies:
   image_cropper: 1.0.2
   image_picker: 0.6.0+17
   file_picker: ^3.0.1
-
+  path_provider:
 dev_dependencies:
   flutter_test:
     sdk: flutter

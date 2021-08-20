@@ -29,7 +29,11 @@ class _OrcamentoListState extends State<OrcamentoList> {
         actions: [addButton(context)],
       ),
       body: StreamBuilder<QuerySnapshot>(
-            stream: FirebaseFirestore.instance.collection('Evento').doc(widget.noteId).collection('orcamento').snapshots(),
+        stream: FirebaseFirestore.instance
+            .collection('Evento')
+            .doc(widget.noteId)
+            .collection('Orcamento')
+            .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
             return Text('Something went wrong');
