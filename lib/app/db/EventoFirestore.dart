@@ -24,4 +24,18 @@ class EventoFirestore {
         .then((value) => print("Deletado"))
         .catchError((error) => print("Erro: $error"));
   }
+
+  Future<void> update(Event ev, noteId) {
+    return evento
+        .doc(noteId)
+        .update({
+          'nome': ev.nome,
+          'conjuge1': ev.conjuge1,
+          'conjuge2': ev.conjuge2,
+          'qtdConvidados': ev.qtdConvidados,
+          'dataEvento': ev.dataEvento,
+        })
+        .then((value) => print("User Updated"))
+        .catchError((error) => print("Failed to update user: $error"));
+  }
 }

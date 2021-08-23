@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meu_evento/app/db/EventoFirestore.dart';
 import 'package:meu_evento/app/db/events_database.dart';
 import 'package:meu_evento/app/models/Evento.dart';
 import 'package:meu_evento/app/widget/NoteFormWidget.dart';
@@ -46,15 +47,15 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
             Conjuge2: conjuge2,
             QtdConvidados: qtdConvidados,
               DataEvento: dataEvento,
-              onChangedNome: (nome) => setState(() => this.nome = nome),
+              onChangedNome: (nome) => {this.nome = nome},
               onChangedConjuge1: (conjuge1) =>
-                  setState(() => this.conjuge1 = conjuge1),
+              {this.conjuge1 = conjuge1},
               onChangedConjuge2: (conjuge2) =>
-                  setState(() => this.conjuge2 = conjuge2),
+              {this.conjuge2 = conjuge2},
               onChangedConvidados: (qtdconvidados) =>
-                  setState(() => this.qtdConvidados = qtdconvidados as int),
+  {this.qtdConvidados = qtdconvidados as int},
               onChangedData: (dataEvento) =>
-                  setState(() => this.dataEvento = dataEvento)),
+  {this.dataEvento = dataEvento}),
         ),
       );
 
@@ -87,18 +88,21 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
       }
 
       Navigator.of(context).pop();
+      Navigator.of(context).pop();
     }
   }
 
   Future updateNote() async {
-    final note = widget.event!.copy(
+    final note = Event(
       nome: nome,
       conjuge1: conjuge1,
       conjuge2: conjuge2,
       qtdConvidados: qtdConvidados,
+      dataEvento: dataEvento,
     );
 
-    await EventDatabase.instance.update(note);
+    EventoFirestore e = new EventoFirestore();
+    e.update(note, widget.event.id);
   }
 
   Future addNote() async {
@@ -110,6 +114,7 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
       dataEvento: dataEvento,
     );
 
-    await EventDatabase.instance.create(note);
+    EventoFirestore e = new EventoFirestore();
+    e.store(note);
   }
 }
