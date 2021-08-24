@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meu_evento/app/db/EventoFirestore.dart';
 import 'package:meu_evento/app/db/events_database.dart';
 import 'package:meu_evento/app/models/Evento.dart';
 import 'package:meu_evento/app/widget/NoteFormWidget.dart';
@@ -30,8 +31,8 @@ class _EventoFormState extends State<EventoForm> {
     nome = widget.evento?.nome ?? '';
     conjuge1 = widget.evento?.conjuge1 ?? '';
     conjuge2 = widget.evento?.conjuge2 ?? '';
-    qtdConvidados = widget.evento?.qtdConvidados ?? 0;
-    dataEvento = widget.evento?.dataEvento ?? '';
+    qtdConvidados = widget.evento?.convidados ?? 0;
+    dataEvento = widget.evento?.data ?? '';
   }
 
   @override
@@ -48,15 +49,15 @@ class _EventoFormState extends State<EventoForm> {
               Conjuge2: conjuge2,
               QtdConvidados: qtdConvidados,
               DataEvento: dataEvento,
-              onChangedNome: (nome) => setState(() => this.nome = nome),
+              onChangedNome: (nome) => {this.nome = nome},
               onChangedConjuge1: (conjuge1) =>
-                  setState(() => this.conjuge1 = conjuge1),
+                  {this.conjuge1 = conjuge1},
               onChangedConjuge2: (conjuge2) =>
-                  setState(() => this.conjuge2 = conjuge2),
+                  {this.conjuge2 = conjuge2},
               onChangedConvidados: (qtdconvidados) =>
-                  setState(() => this.qtdConvidados = int.parse(qtdconvidados)),
+                  {this.qtdConvidados = int.parse(qtdconvidados)},
               onChangedData: (dataEvento) =>
-                  setState(() => this.dataEvento = dataEvento)),
+                  {this.dataEvento = dataEvento}),
         ),
       ),
     );
@@ -83,27 +84,10 @@ class _EventoFormState extends State<EventoForm> {
     final isValid = _form.currentState!.validate();
 
     if (isValid) {
-      final isUpdating = widget.evento != null;
+      await addNote();
 
-      if (isUpdating) {
-        await updateNote();
-      } else {
-        await addNote();
-      }
       Navigator.of(context).pop();
     }
-  }
-
-  Future updateNote() async {
-    final event = widget.evento!.copy(
-      nome: nome,
-      conjuge1: conjuge1,
-      conjuge2: conjuge2,
-      qtdConvidados: qtdConvidados,
-        dataEvento: dataEvento
-    );
-
-    await EventDatabase.instance.update(event);
   }
 
   Future addNote() async {
@@ -111,10 +95,11 @@ class _EventoFormState extends State<EventoForm> {
       nome: nome,
       conjuge1: conjuge1,
       conjuge2: conjuge2,
-      qtdConvidados: qtdConvidados,
-      dataEvento: dataEvento,
+      convidados: qtdConvidados,
+      data: dataEvento,
     );
 
-    await EventDatabase.instance.create(note);
+    EventoFirestore e = new EventoFirestore();
+    e.store(note);
   }
 }

@@ -35,7 +35,11 @@ dependencies:
   flutter_svg:
   provider:
   cloud_firestore: ^2.4.0
-  firebase_core: ^1.4.0
+  firebase_core: ^1.5.0
+  # authentication
+  firebase_auth: ^3.0.2
+  google_sign_in: ^5.0.7
+  flutter_facebook_auth: ^3.5.1
   # database storage
   sqflite: ^2.0.0+3
   # format DateTime

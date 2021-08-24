@@ -19,20 +19,8 @@ class _EventList extends State <EventoList> {
   @override
   void initState() {
     super.initState();
-    refreshNotes();
   }
 
-  @override
-  void dispose() {
-    EventDatabase.instance.close();
-    super.dispose();
-  }
-
-  Future refreshNotes() async {
-    setState(() => isLoading = true);
-    this.events = await EventDatabase.instance.readAllNotes();
-    setState(() => isLoading = false);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +53,6 @@ class _EventList extends State <EventoList> {
           await Navigator.of(context).push(
             MaterialPageRoute(builder: (context) => EventoForm()),
           );
-          refreshNotes();
         },
       ),
     );
@@ -86,7 +73,6 @@ class _EventList extends State <EventoList> {
               await Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => Navigation(note: note!),
               ));
-              refreshNotes();
             },
             child: NoteCardWidget(note: note, index: index),
           );

@@ -19,16 +19,16 @@ class Event {
   final String nome;
   final String conjuge1;
   final String conjuge2;
-  final int qtdConvidados;
-  final String dataEvento;
+  final int convidados;
+  final String data;
 
   const Event({
     this.id,
     required this.nome,
     required this.conjuge1,
     required this.conjuge2,
-    required this.qtdConvidados,
-    required this.dataEvento,
+    required this.convidados,
+    required this.data,
   });
 
   Event copy({
@@ -36,16 +36,16 @@ class Event {
     String? nome,
     String? conjuge1,
     String? conjuge2,
-    int? qtdConvidados,
-    String? dataEvento,
+    int? convidados,
+    String? data,
   }) =>
       Event(
         id: id ?? this.id,
         nome: nome ?? this.nome,
         conjuge1: conjuge1 ?? this.conjuge1,
         conjuge2: conjuge2 ?? this.conjuge2,
-        qtdConvidados: qtdConvidados ?? this.qtdConvidados,
-        dataEvento: dataEvento ?? this.dataEvento,
+        convidados: convidados ?? this.convidados,
+        data: data ?? this.data,
       );
 
   static Event fromJson(Map<String, Object?> json) => Event(
@@ -53,8 +53,8 @@ class Event {
         nome: json[EventFields.nome] as String,
         conjuge1: json[EventFields.conjuge1] as String,
         conjuge2: json[EventFields.conjuge2] as String,
-        qtdConvidados: json[EventFields.convidados] as int,
-        dataEvento: json[EventFields.data] as String,
+        convidados: json[EventFields.convidados] as int,
+        data: json[EventFields.data] as String,
       );
 
   Map<String, Object?> toJson() => {
@@ -62,7 +62,7 @@ class Event {
         EventFields.nome: nome,
         EventFields.conjuge1: conjuge1,
         EventFields.conjuge2: conjuge2,
-        EventFields.convidados: qtdConvidados,
-    EventFields.data: dataEvento,
+        EventFields.convidados: convidados,
+    EventFields.data: data,
       };
 }

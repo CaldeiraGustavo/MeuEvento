@@ -49,13 +49,13 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
               DataEvento: dataEvento,
               onChangedNome: (nome) => {this.nome = nome},
               onChangedConjuge1: (conjuge1) =>
-              {this.conjuge1 = conjuge1},
+                {this.conjuge1 = conjuge1},
               onChangedConjuge2: (conjuge2) =>
-              {this.conjuge2 = conjuge2},
+                {this.conjuge2 = conjuge2},
               onChangedConvidados: (qtdconvidados) =>
-  {this.qtdConvidados = qtdconvidados as int},
+                {this.qtdConvidados = qtdconvidados as int},
               onChangedData: (dataEvento) =>
-  {this.dataEvento = dataEvento}),
+                {this.dataEvento = dataEvento}),
         ),
       );
 
@@ -97,8 +97,8 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
       nome: nome,
       conjuge1: conjuge1,
       conjuge2: conjuge2,
-      qtdConvidados: qtdConvidados,
-      dataEvento: dataEvento,
+      convidados: qtdConvidados,
+      data: dataEvento,
     );
 
     EventoFirestore e = new EventoFirestore();
@@ -110,8 +110,8 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
       nome: nome,
       conjuge1: conjuge1,
       conjuge2: conjuge2,
-      qtdConvidados: qtdConvidados,
-      dataEvento: dataEvento,
+      convidados: qtdConvidados,
+      data: dataEvento,
     );
 
     EventoFirestore e = new EventoFirestore();

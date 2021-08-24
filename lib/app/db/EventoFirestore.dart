@@ -10,8 +10,8 @@ class EventoFirestore {
       'nome': ev.nome,
       'conjuge1': ev.conjuge1,
       'conjuge2': ev.conjuge2,
-      'qtdConvidados': ev.qtdConvidados,
-      'dataEvento': ev.dataEvento,
+      'convidados': ev.convidados,
+      'data': ev.data,
     })
         .then((value) => print("Adicionado"))
         .catchError((error) => print("Erro: $error"));
@@ -32,8 +32,8 @@ class EventoFirestore {
           'nome': ev.nome,
           'conjuge1': ev.conjuge1,
           'conjuge2': ev.conjuge2,
-          'qtdConvidados': ev.qtdConvidados,
-          'dataEvento': ev.dataEvento,
+          'convidados': ev.convidados,
+          'data': ev.data,
         })
         .then((value) => print("User Updated"))
         .catchError((error) => print("Failed to update user: $error"));
