@@ -33,13 +33,13 @@ dependencies:
   page_transition: ^1.1.7+5
   animate_do: ^1.7.5
   flutter_svg:
-  provider:
   cloud_firestore: ^2.4.0
   firebase_core: ^1.5.0
   # authentication
   firebase_auth: ^3.0.2
   google_sign_in: ^5.0.7
   flutter_facebook_auth: ^3.5.1
+  provider: ^6.0.0
   # database storage
   sqflite: ^2.0.0+3
   # format DateTime

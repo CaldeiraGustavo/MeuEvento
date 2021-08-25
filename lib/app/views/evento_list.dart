@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:meu_evento/app/db/events_database.dart';
 import 'package:meu_evento/app/models/Evento.dart';
+import 'package:meu_evento/app/services/auth.dart';
 import 'package:meu_evento/app/views/evento_form.dart';
 import 'package:meu_evento/app/views/navigation_page.dart';
 import 'package:meu_evento/app/widget/note_card_widget.dart';
@@ -12,7 +13,7 @@ class EventoList extends StatefulWidget {
 }
 
 @override
-class _EventList extends State <EventoList> {
+class _EventList extends State<EventoList> {
   late List<Event> events;
   bool isLoading = false;
 
@@ -21,21 +22,18 @@ class _EventList extends State <EventoList> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Lista de Eventos'),
-        actions: <Widget>[
-          Icon(Icons.search), SizedBox(width: 12),
-        ],
+        actions: <Widget>[LogoffButton()],
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection('Evento').snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
-            return Text('Something went wrong');
+            return Text("{$snapshot.error}");
           }
           switch (snapshot.connectionState) {
             case ConnectionState.none:
@@ -58,8 +56,7 @@ class _EventList extends State <EventoList> {
     );
   }
 
-  Widget buildNotes(snapshot) =>
-      StaggeredGridView.countBuilder(
+  Widget buildNotes(snapshot) => StaggeredGridView.countBuilder(
         padding: EdgeInsets.all(8),
         itemCount: (snapshot.data!).docs.length,
         staggeredTileBuilder: (index) => StaggeredTile.fit(2),
@@ -78,4 +75,9 @@ class _EventList extends State <EventoList> {
           );
         },
       );
+  Widget LogoffButton() => IconButton(
+      icon: Icon(Icons.logout),
+      onPressed: () async {
+        await AuthService().signOut();
+      });
 }

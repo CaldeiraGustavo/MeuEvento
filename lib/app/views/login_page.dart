@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:meu_evento/app/services/auth.dart';
 import 'package:meu_evento/app/views/evento_list.dart';
 import 'package:meu_evento/constants.dart';
 
@@ -10,6 +11,15 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _rememberMe = false;
+  late String email;
+  late String senha;
+
+  @override
+  void initState() {
+    super.initState();
+    email = '';
+    senha = '';
+  }
 
   Widget _buildEmailTF() {
     return Column(
@@ -25,6 +35,9 @@ class _LoginScreenState extends State<LoginScreen> {
           decoration: kBoxDecorationStyle,
           height: 60.0,
           child: TextField(
+            onChanged: (value) {
+              this.email = value;
+            },
             keyboardType: TextInputType.emailAddress,
             style: TextStyle(
               color: Colors.white,
@@ -60,6 +73,9 @@ class _LoginScreenState extends State<LoginScreen> {
           decoration: kBoxDecorationStyle,
           height: 60.0,
           child: TextField(
+            onChanged: (value) {
+              this.senha = value;
+            },
             obscureText: true,
             style: TextStyle(
               color: Colors.white,
@@ -129,9 +145,8 @@ class _LoginScreenState extends State<LoginScreen> {
       width: double.infinity,
       child: RaisedButton(
         elevation: 5.0,
-        onPressed: () async {
-          await Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => EventoList()));
+        onPressed: () {
+          AuthService().signInWithEmail(this.email, this.senha);
         },
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
@@ -208,7 +223,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
           _buildSocialBtn(
-                () => print('Login com Google'),
+            () => print('Login com Google'),
             AssetImage(
               'assets/logos/google.jpg',
             ),
