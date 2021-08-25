@@ -27,7 +27,7 @@ class _EventList extends State<EventoList> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Lista de Eventos'),
-        actions: <Widget>[LogoffButton()],
+        actions: <Widget>[logoffButton()],
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection('Evento').snapshots(),
@@ -75,7 +75,7 @@ class _EventList extends State<EventoList> {
           );
         },
       );
-  Widget LogoffButton() => IconButton(
+  Widget logoffButton() => IconButton(
       icon: Icon(Icons.logout),
       onPressed: () async {
         await AuthService().signOut();

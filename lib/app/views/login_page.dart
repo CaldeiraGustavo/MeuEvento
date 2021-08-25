@@ -13,6 +13,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _rememberMe = false;
   late String email;
   late String senha;
+  final _form = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -34,10 +35,12 @@ class _LoginScreenState extends State<LoginScreen> {
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle,
           height: 60.0,
-          child: TextField(
+          child: TextFormField(
             onChanged: (value) {
               this.email = value;
             },
+            validator: (title) =>
+                title != null && title.isEmpty ? 'Insira o e-mail' : null,
             keyboardType: TextInputType.emailAddress,
             style: TextStyle(
               color: Colors.white,
@@ -72,10 +75,12 @@ class _LoginScreenState extends State<LoginScreen> {
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle,
           height: 60.0,
-          child: TextField(
+          child: TextFormField(
             onChanged: (value) {
               this.senha = value;
             },
+            validator: (title) =>
+                title != null && title.isEmpty ? 'Insira a senha' : null,
             obscureText: true,
             style: TextStyle(
               color: Colors.white,
@@ -97,20 +102,6 @@ class _LoginScreenState extends State<LoginScreen> {
       ],
     );
   }
-
-  /*Widget _buildForgotPasswordBtn() {
-    return Container(
-      alignment: Alignment.centerRight,
-      child: FlatButton(
-        onPressed: () => print('Forgot Password Button Pressed'),
-        padding: EdgeInsets.only(right: 0.0),
-        child: Text(
-          'Forgot Password?',
-          style: kLabelStyle,
-        ),
-      ),
-    );
-  }*/
 
   Widget _buildRememberMeCheckbox() {
     return Container(
@@ -146,7 +137,10 @@ class _LoginScreenState extends State<LoginScreen> {
       child: RaisedButton(
         elevation: 5.0,
         onPressed: () {
-          AuthService().signInWithEmail(this.email, this.senha);
+          final isValid = _form.currentState!.validate();
+          if (isValid) {
+            AuthService().signInWithEmail(this.email, this.senha);
+          }
         },
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
@@ -233,34 +227,6 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  /*Widget _buildSignupBtn() {
-    return GestureDetector(
-      onTap: () => print('Sign Up Button Pressed'),
-      child: RichText(
-        text: TextSpan(
-          children: [
-            TextSpan(
-              text: 'Don\'t have an Account? ',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18.0,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-            TextSpan(
-              text: 'Sign Up',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }*/
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -295,31 +261,32 @@ class _LoginScreenState extends State<LoginScreen> {
                     horizontal: 40.0,
                     vertical: 120.0,
                   ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        'Meu Evento',
-                        style: TextStyle(
-                          color: Colors.pinkAccent.shade100,
-                          fontFamily: 'OpenSans',
-                          fontSize: 40.0,
-                          fontWeight: FontWeight.bold,
+                  child: Form(
+                    key: _form,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          'Meu Evento',
+                          style: TextStyle(
+                            color: Colors.pinkAccent.shade100,
+                            fontFamily: 'OpenSans',
+                            fontSize: 40.0,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 30.0),
-                      _buildEmailTF(),
-                      SizedBox(
-                        height: 30.0,
-                      ),
-                      _buildPasswordTF(),
-                      //_buildForgotPasswordBtn(),
-                      _buildRememberMeCheckbox(),
-                      _buildLoginBtn(),
-                      _buildSignInWithText(),
-                      _buildSocialBtnRow(),
-                      //_buildSignupBtn(),
-                    ],
+                        SizedBox(height: 30.0),
+                        _buildEmailTF(),
+                        SizedBox(
+                          height: 30.0,
+                        ),
+                        _buildPasswordTF(),
+                        _buildRememberMeCheckbox(),
+                        _buildLoginBtn(),
+                        _buildSignInWithText(),
+                        _buildSocialBtnRow(),
+                      ],
+                    ),
                   ),
                 ),
               )
