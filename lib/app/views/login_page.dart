@@ -22,6 +22,19 @@ class _LoginScreenState extends State<LoginScreen> {
     senha = '';
   }
 
+  String? _validarEmail(String? value) {
+    String pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regExp = new RegExp(pattern);
+    if (value == null || value.length == 0) {
+      return "Informe o Email";
+    } else if (!regExp.hasMatch(value)) {
+      return "Email inválido";
+    } else {
+      return null;
+    }
+  }
+
   Widget _buildEmailTF() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,8 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
             onChanged: (value) {
               this.email = value;
             },
-            validator: (title) =>
-                title != null && title.isEmpty ? 'Insira o e-mail' : null,
+            validator: _validarEmail,
             keyboardType: TextInputType.emailAddress,
             style: TextStyle(
               color: Colors.white,
