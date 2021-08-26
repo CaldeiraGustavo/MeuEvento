@@ -57,51 +57,60 @@ class _ConvidadosPageState extends State<ConvidadosPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.refresh),
-          onPressed: () async {
-            await loadAsset();
-          }),
-      appBar: AppBar(
-        title: Text("Lista de Convidados"),
-      ),
-      body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance
-            .collection('Evento')
-            .doc(widget.noteId)
-            .collection('Convidados')
-            .snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.hasError) {
-            return Text('Something went wrong');
-          }
-          switch(snapshot.connectionState){
-            case ConnectionState.none:
-            case ConnectionState.waiting:
-              return Center (child: CircularProgressIndicator());
-            default:
-              return  SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: SingleChildScrollView(
-                  physics: ClampingScrollPhysics(),
-                  scrollDirection: Axis.horizontal,
-                  child: DataTable(
-                    columns: [
-                      DataColumn(label: Text('Nome')),
-                      DataColumn(label: Text('Padrinho')),
-                    ],
-                    rows: snapshot.data!.map((DocumentSnapshot document) {
-                  Map<String, dynamic> data = document.data() as Map<String, dynamic>;
-                  return DataRow(cells: [
-                            DataCell(
-                              Text(player.points.toString()),
-                            )
-                    }),),
-              );
-          }
-        })
-    );
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.refresh),
+            onPressed: () async {
+              await loadAsset();
+            }),
+        appBar: AppBar(
+          title: Text("Lista de Convidados"),
+        ),
+        body: StreamBuilder<QuerySnapshot>(
+            stream: FirebaseFirestore.instance
+                .collection('Evento')
+                .doc(widget.noteId)
+                .collection('Convidados')
+                .snapshots(),
+            builder:
+                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.hasError) {
+                return Text('Something went wrong');
+              }
+              switch (snapshot.connectionState) {
+                case ConnectionState.none:
+                case ConnectionState.waiting:
+                  return Center(child: CircularProgressIndicator());
+                default:
+                  return SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
+                      child: SingleChildScrollView(
+                          physics: ClampingScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          child: DataTable(
+                            columns: [
+                              DataColumn(label: Text('Nome')),
+                              DataColumn(label: Text('Padrinho')),
+                            ],
+                            rows: (snapshot.data!)
+                                .docs
+                                .map((DocumentSnapshot document) {
+                              Map<String, dynamic> data =
+                                  document.data() as Map<String, dynamic>;
+                              return DataRow(cells: [
+                                DataCell(
+                                  Text(data['nome']),
+                                ),
+                                DataCell(
+                                  Text(data['isPadrinho'] == true
+                                      ? 'Padrinho'
+                                      : 'Convidado'),
+                                ),
+                              ]);
+                            }).toList(),
+                          )));
+              }
+            }));
   }
 
   void refresh(List data) => setState(() => {});
