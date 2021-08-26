@@ -1,28 +1,52 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:csv/csv.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:meu_evento/app/db/ConvidadoFirestore.dart';
+import 'package:meu_evento/app/models/Convidado.dart';
 
-class convidadosPage extends StatefulWidget {
+class ConvidadosPage extends StatefulWidget {
+  final String noteId;
+  const ConvidadosPage({Key? key, required this.noteId}) : super(key: key);
+
   @override
-  _convidadosPageState createState() => _convidadosPageState();
+  _ConvidadosPageState createState() => _ConvidadosPageState();
 }
 
-class _convidadosPageState extends State<convidadosPage> {
-  List<List<dynamic>> data = [];
+class _ConvidadosPageState extends State<ConvidadosPage> {
   UploadTask? task;
   File? file;
 
   loadAsset() async {
-    selectFile();
-    //final myData = await rootBundle.loadString('assets/teste.csv');
-    final dados = file!.readAsStringSync(encoding: utf8);
-    List<List<dynamic>> csvTable = CsvToListConverter().convert(dados);
-    data = csvTable;
+    List<Convidado> data = [];
+    try {
+      await selectFile();
+      String dados = file!.readAsStringSync(encoding: utf8);
+      List<List<dynamic>> csvTable =
+          CsvToListConverter(fieldDelimiter: ';').convert(dados);
+
+      if (csvTable.isNotEmpty) {
+        csvTable.forEach((item) => {
+              if (item[0].toString() != "Nome do Convidado")
+                {
+                  data.add(new Convidado(
+                      nome: item[0].toString(),
+                      isPadrinho: item[1].toString().toUpperCase() == "SIM",
+                      importado: true))
+                }
+            });
+        await ConvidadoFirestore(widget.noteId).storeAllGuests(data);
+      } else {
+        print("Arquivo vazio");
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -42,39 +66,51 @@ class _convidadosPageState extends State<convidadosPage> {
       appBar: AppBar(
         title: Text("Lista de Convidados"),
       ),
-      body: SingleChildScrollView(
-        child: Table(
-          columnWidths: {
-            0: FixedColumnWidth(35.0),
-            1: FixedColumnWidth(200.0),
-          },
-          border: TableBorder.all(width: 1.0),
-          children: data.map((item) {
-            return TableRow(
-                children: item.map((row) {
-                  return Container(
-                    color:
-                    row.toString().contains("padrinho") ? Colors.red : Colors
-                        .green,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        row.toString(),
-                        style: TextStyle(fontSize: 12.0),
-                      ),
-                    ),
-                  );
-                }).toList());
-          }).toList(),
-        ),
-      ),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection('Evento')
+            .doc(widget.noteId)
+            .collection('Convidados')
+            .snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return Text('Something went wrong');
+          }
+          switch(snapshot.connectionState){
+            case ConnectionState.none:
+            case ConnectionState.waiting:
+              return Center (child: CircularProgressIndicator());
+            default:
+              return  SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: SingleChildScrollView(
+                  physics: ClampingScrollPhysics(),
+                  scrollDirection: Axis.horizontal,
+                  child: DataTable(
+                    columns: [
+                      DataColumn(label: Text('Nome')),
+                      DataColumn(label: Text('Padrinho')),
+                    ],
+                    rows: snapshot.data!.map((DocumentSnapshot document) {
+                  Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+                  return DataRow(cells: [
+                            DataCell(
+                              Text(player.points.toString()),
+                            )
+                    }),),
+              );
+          }
+        })
     );
   }
 
   void refresh(List data) => setState(() => {});
 
   Future selectFile() async {
-    final result = await FilePicker.platform.pickFiles(allowMultiple: false);
+    final result = await FilePicker.platform.pickFiles(
+        allowMultiple: false,
+        type: FileType.custom,
+        allowedExtensions: ['csv']);
     if (result == null) return;
     final path = result.files.single.path!;
     setState(() => file = File(path));

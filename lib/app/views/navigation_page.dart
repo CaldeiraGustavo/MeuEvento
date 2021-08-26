@@ -24,14 +24,14 @@ class _NavigationState extends State<Navigation> {
   void initState() {
     super.initState();
     setState(() => {
-      pageList = <Widget>[
-        EventDetailPage(note: widget.note),
-        cronogramaPage(),
-        convidadosPage(),
-        OrcamentoList(noteId: widget.note.id),
-        uploadPage(),
-      ]
-    });
+          pageList = <Widget>[
+            EventDetailPage(note: widget.note),
+            cronogramaPage(),
+            ConvidadosPage(noteId: widget.note.id),
+            OrcamentoList(noteId: widget.note.id),
+            uploadPage(),
+          ]
+        });
   }
 
   @override
@@ -39,12 +39,12 @@ class _NavigationState extends State<Navigation> {
     return Scaffold(
       //body: pageList[pageIndex],
       body: PageTransitionSwitcher(
-          transitionBuilder: (child, primaryAnimation, secondaryAnimation) => 
-          FadeThroughTransition(
-            animation: primaryAnimation,
-            secondaryAnimation: secondaryAnimation,
-            child: child,
-          ),
+        transitionBuilder: (child, primaryAnimation, secondaryAnimation) =>
+            FadeThroughTransition(
+          animation: primaryAnimation,
+          secondaryAnimation: secondaryAnimation,
+          child: child,
+        ),
         child: pageList[pageIndex],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -76,9 +76,7 @@ class _NavigationState extends State<Navigation> {
             label: 'Orçamento',
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.photo_camera),
-              label: 'Contratos'
-          )
+              icon: Icon(Icons.photo_camera), label: 'Contratos')
         ],
       ),
     );
