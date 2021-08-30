@@ -26,7 +26,7 @@ class _NavigationState extends State<Navigation> {
     setState(() => {
           pageList = <Widget>[
             EventDetailPage(note: widget.note),
-            cronogramaPage(),
+            cronogramaPage(noteId: widget.note.id),
             ConvidadosPage(noteId: widget.note.id),
             OrcamentoList(noteId: widget.note.id),
             uploadPage(),

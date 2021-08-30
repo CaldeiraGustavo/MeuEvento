@@ -2,18 +2,23 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
 class cronogramaPage extends StatefulWidget {
+  final String noteId;
+
+  const cronogramaPage({Key? key, required this.noteId}) : super(key: key);
+
   @override
   _cronogramaPageState createState() => _cronogramaPageState();
 }
 
 class _cronogramaPageState extends State<cronogramaPage> {
   final _toDoController = TextEditingController();
-
   List _toDoList = [];
+  late AsyncSnapshot<QuerySnapshot> snapshot;
 
   late Map<String, dynamic> _lastRemoved;
   late int _lastRemovedPos;
@@ -32,6 +37,7 @@ class _cronogramaPageState extends State<cronogramaPage> {
   Future<Null> _refresh() async {
     await Future.delayed(Duration(seconds: 1));
 
+    print(widget.noteId);
     setState(() {
       _toDoList.sort((a, b) {
         if (a["ok"] && !b["ok"])
@@ -66,44 +72,63 @@ class _cronogramaPageState extends State<cronogramaPage> {
       appBar: AppBar(
         title: Text("Cronograma"),
       ),
-      body: Column(
-        children: <Widget>[
-          Container(
-            padding: EdgeInsets.fromLTRB(17.0, 1.0, 7.0, 1.0),
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                    child: TextField(
-                      controller: _toDoController,
-                      decoration: InputDecoration(
-                          labelText: "Novo item",
-                          labelStyle: TextStyle(color: Colors.blueAccent)
+      body: StreamBuilder<QuerySnapshot>(
+          stream: FirebaseFirestore.instance
+              .collection('Evento')
+              .doc(widget.noteId)
+              .collection('Cronograma')
+              .snapshots(),
+          builder:
+              (BuildContext context, snapshot) {
+            if (snapshot.hasError) {
+              return Text('Something went wrong');
+            }
+            switch (snapshot.connectionState) {
+              case ConnectionState.none:
+              case ConnectionState.waiting:
+                return Center(child: CircularProgressIndicator());
+              default:
+                return new Column(
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.fromLTRB(17.0, 1.0, 7.0, 1.0),
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: TextField(
+                              controller: _toDoController,
+                              decoration: InputDecoration(
+                                  labelText: "Novo item",
+                                  labelStyle:
+                                  TextStyle(color: Colors.blueAccent)),
+                            ),
+                          ),
+                          RaisedButton(
+                            color: Colors.blueAccent,
+                            child: Text("ADD"),
+                            textColor: Colors.white,
+                            onPressed: _addToDo,
+                          ),
+                        ],
                       ),
-                    )
-                ),
-                RaisedButton(
-                  color: Colors.blueAccent,
-                  child: Text("ADD"),
-                  textColor: Colors.white,
-                  onPressed: _addToDo,
-                )
-              ],
-            ),
-          ),
-          Expanded(
-            child: RefreshIndicator(onRefresh: _refresh,
-              child: ListView.builder(
-                  padding: EdgeInsets.only(top: 10.0),
-                  itemCount: _toDoList.length,
-                  itemBuilder: buildItem),),
-          )
-        ],
-      ),
+                    ),
+                    Expanded(
+                        child: RefreshIndicator(
+                          onRefresh: _refresh,
+                          child: ListView.builder(
+                              padding: EdgeInsets.only(top: 10.0),
+                              itemCount: _toDoList.length,
+                              itemBuilder: buildItem),
+                        ))
+                  ],
+                );
+            }
+          }),
     );
   }
 
   Widget buildItem(BuildContext context, int index) {
-    return Dismissible(
+    return new Dismissible(
       key: Key(DateTime
           .now()
           .millisecondsSinceEpoch
@@ -112,7 +137,10 @@ class _cronogramaPageState extends State<cronogramaPage> {
         color: Colors.red,
         child: Align(
           alignment: Alignment(-0.9, 0.0),
-          child: Icon(Icons.delete, color: Colors.white,),
+          child: Icon(
+            Icons.delete,
+            color: Colors.white,
+          ),
         ),
       ),
       direction: DismissDirection.startToEnd,
@@ -120,8 +148,8 @@ class _cronogramaPageState extends State<cronogramaPage> {
         title: Text(_toDoList[index]["title"]),
         value: _toDoList[index]["ok"],
         secondary: CircleAvatar(
-          child: Icon(_toDoList[index]["ok"] ?
-          Icons.check : Icons.error),),
+          child: Icon(_toDoList[index]["ok"] ? Icons.check : Icons.error),
+        ),
         onChanged: (c) {
           setState(() {
             _toDoList[index]["ok"] = c;
@@ -139,7 +167,8 @@ class _cronogramaPageState extends State<cronogramaPage> {
 
           final snack = SnackBar(
             content: Text("Tarefa \"${_lastRemoved["title"]}\" removida!"),
-            action: SnackBarAction(label: "Desfazer",
+            action: SnackBarAction(
+                label: "Desfazer",
                 onPressed: () {
                   setState(() {
                     _toDoList.insert(_lastRemovedPos, _lastRemoved);
@@ -178,4 +207,41 @@ class _cronogramaPageState extends State<cronogramaPage> {
     }
   }
 
+  Widget buildItem2(BuildContext context, int index) {
+    return ListView(
+      children: (snapshot.data!).docs.map((DocumentSnapshot document) {
+        Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+        return Dismissible(
+            key: Key(DateTime
+                .now()
+                .millisecondsSinceEpoch
+                .toString()),
+            child: Container(
+              child: Align(
+                alignment: Alignment(-0.9, 0.0),
+                child: Icon(
+                  Icons.delete,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            direction: DismissDirection.startToEnd,
+            return CheckboxListTile(
+        title: Text(_toDoList[index]["title"]),
+        value: _toDoList[index]["ok"],
+        secondary: CircleAvatar(
+        child: Icon(_toDoList[index]["ok"] ? Icons.check : Icons.error),
+        ),
+        onChanged: (c) {
+        setState(() {
+        _toDoList[index]["ok"] = c;
+        _saveData();
+        });
+        },
+        )
+        ,
+        );
+      }).toList(),
+    );
+  }
 }
