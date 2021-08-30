@@ -59,7 +59,7 @@ class _ConvidadosPageState extends State<ConvidadosPage> {
     return Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: FloatingActionButton(
-            child: Icon(Icons.refresh),
+            child: Icon(Icons.upload),
             onPressed: () async {
               await loadAsset();
             }),
@@ -83,32 +83,61 @@ class _ConvidadosPageState extends State<ConvidadosPage> {
                   return Center(child: CircularProgressIndicator());
                 default:
                   return SingleChildScrollView(
+                      physics: ClampingScrollPhysics(),
                       scrollDirection: Axis.vertical,
-                      child: SingleChildScrollView(
-                          physics: ClampingScrollPhysics(),
-                          scrollDirection: Axis.horizontal,
-                          child: DataTable(
-                            columns: [
-                              DataColumn(label: Text('Nome')),
-                              DataColumn(label: Text('Padrinho')),
-                            ],
-                            rows: (snapshot.data!)
-                                .docs
-                                .map((DocumentSnapshot document) {
-                              Map<String, dynamic> data =
-                                  document.data() as Map<String, dynamic>;
-                              return DataRow(cells: [
-                                DataCell(
-                                  Text(data['nome']),
+                      child: DataTable(
+                        horizontalMargin: 50,
+                        columns: [
+                          DataColumn(
+                              label: Text(
+                            'Nome',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )),
+                          DataColumn(
+                              label: Text(
+                            'Padrinho',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )),
+                        ],
+                        rows: (snapshot.data!)
+                            .docs
+                            .map((DocumentSnapshot document) {
+                          Map<String, dynamic> data =
+                              document.data() as Map<String, dynamic>;
+                          return DataRow(cells: [
+                            DataCell(
+                              Text(
+                                data['nome'],
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                                DataCell(
-                                  Text(data['isPadrinho'] == true
-                                      ? 'Padrinho'
-                                      : 'Convidado'),
+                              ),
+                            ),
+                            DataCell(
+                              Text(
+                                data['isPadrinho'] == true
+                                    ? 'Padrinho'
+                                    : 'Convidado',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                              ]);
-                            }).toList(),
-                          )));
+                              ),
+                            ),
+                          ]);
+                        }).toList(),
+                      ));
               }
             }));
   }

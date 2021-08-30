@@ -4,7 +4,7 @@ import 'package:meu_evento/app/views/convidados_page.dart';
 import 'package:meu_evento/app/views/cronograma_page.dart';
 import 'package:meu_evento/app/views/event_detail_page.dart';
 import 'package:meu_evento/app/views/transaction_page.dart';
-import 'package:meu_evento/app/views/upload_page.dart';
+import 'package:meu_evento/app/views/contratos_page.dart';
 
 class Navigation extends StatefulWidget {
   final dynamic note;
@@ -29,7 +29,7 @@ class _NavigationState extends State<Navigation> {
             cronogramaPage(noteId: widget.note.id),
             ConvidadosPage(noteId: widget.note.id),
             OrcamentoList(noteId: widget.note.id),
-            uploadPage(),
+            ContratosPage(),
           ]
         });
   }
