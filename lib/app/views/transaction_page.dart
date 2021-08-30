@@ -58,7 +58,7 @@ class _OrcamentoListState extends State<OrcamentoList> {
                           child: Container(
                             padding: EdgeInsets.all(10),
                             child: FittedBox(
-                              child: Text('\$${data['valor']}'),
+                              child: Text('R\$${data['valor']}'),
                             ),
                           )),
                       title: Text(
