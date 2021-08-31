@@ -36,7 +36,6 @@ class _cronogramaPageState extends State<cronogramaPage> {
 
   Future<Null> _refresh() async {
     await Future.delayed(Duration(seconds: 1));
-
     print(widget.noteId);
     setState(() {
       _toDoList.sort((a, b) {
@@ -118,8 +117,8 @@ class _cronogramaPageState extends State<cronogramaPage> {
                           child: ListView.builder(
                               padding: EdgeInsets.only(top: 10.0),
                               itemCount: _toDoList.length,
-                              itemBuilder: buildItem),
-                        ))
+                          itemBuilder: buildItem2),
+                    ))
                   ],
                 );
             }
@@ -210,13 +209,14 @@ class _cronogramaPageState extends State<cronogramaPage> {
   Widget buildItem2(BuildContext context, int index) {
     return ListView(
       children: (snapshot.data!).docs.map((DocumentSnapshot document) {
-        Map<String, dynamic> data = document.data() as Map<String, dynamic>;
-        return Dismissible(
+        Map<String, dynamic> data2 = document.data() as Map<String, dynamic>;
+        return new Dismissible(
             key: Key(DateTime
                 .now()
                 .millisecondsSinceEpoch
                 .toString()),
-            child: Container(
+            background: Container(
+              color: Colors.redAccent,
               child: Align(
                 alignment: Alignment(-0.9, 0.0),
                 child: Icon(
@@ -226,21 +226,43 @@ class _cronogramaPageState extends State<cronogramaPage> {
               ),
             ),
             direction: DismissDirection.startToEnd,
-            return CheckboxListTile(
-        title: Text(_toDoList[index]["title"]),
-        value: _toDoList[index]["ok"],
-        secondary: CircleAvatar(
-        child: Icon(_toDoList[index]["ok"] ? Icons.check : Icons.error),
-        ),
-        onChanged: (c) {
-        setState(() {
-        _toDoList[index]["ok"] = c;
-        _saveData();
-        });
-        },
-        )
-        ,
-        );
+            child: CheckboxListTile(
+              title: Text(data2["title"]
+              ),
+              value: data2["ok"],
+              secondary: CircleAvatar(
+                child: Icon(_toDoList[index]["ok"] ? Icons.check : Icons.error),
+              ),
+              onChanged: (c) {
+                setState(() {
+                  _toDoList[index]["ok"] = c;
+                  _saveData();
+                });
+              },
+            ),
+            onDismissed: (direction) {
+              setState(() {
+                _lastRemoved = Map.from(_toDoList[index]);
+                _lastRemovedPos = index;
+                _toDoList.removeAt(index);
+
+                final snack = SnackBar(
+                  content:
+                  Text("Tarefa \"${_lastRemoved["title"]}\" removida!"),
+                  action: SnackBarAction(
+                      label: "Desfazer",
+                      onPressed: () {
+                        setState(() {
+                          _toDoList.insert(_lastRemovedPos, _lastRemoved);
+                          _saveData();
+                        });
+                      }),
+                  duration: Duration(seconds: 2),
+                );
+                Scaffold.of(context).removeCurrentSnackBar();
+                Scaffold.of(context).showSnackBar(snack);
+              });
+            });
       }).toList(),
     );
   }
