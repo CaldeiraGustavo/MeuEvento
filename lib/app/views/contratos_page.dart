@@ -32,6 +32,12 @@ class _ContratosPageState extends State<ContratosPage> {
           title: Text("Lista de contratos"),
           centerTitle: true,
         ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.upload),
+            onPressed: () {
+              print('oi');
+            }),
         body: FutureBuilder<List<FirebaseFile>>(
           future: futureFiles,
           builder: (context, snapshot) {
@@ -43,7 +49,6 @@ class _ContratosPageState extends State<ContratosPage> {
                   return Center(child: Text('Some error occurred!'));
                 } else {
                   final files = snapshot.data!;
-
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

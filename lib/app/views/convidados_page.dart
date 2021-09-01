@@ -71,6 +71,7 @@ class _ConvidadosPageState extends State<ConvidadosPage> {
                 .collection('Evento')
                 .doc(widget.noteId)
                 .collection('Convidados')
+                .orderBy('nome')
                 .snapshots(),
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {

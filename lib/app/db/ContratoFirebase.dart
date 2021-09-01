@@ -52,7 +52,7 @@ class FirebaseApi {
 
     try {
       return await ref.writeToFile(file);
-    } on FirebaseException catch (e) {
+    } catch (e) {
       print(e);
     }
   }

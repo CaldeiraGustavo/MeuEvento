@@ -151,7 +151,7 @@ class _LoginScreenState extends State<LoginScreen> {
         onPressed: () {
           final isValid = _form.currentState!.validate();
           if (isValid) {
-            AuthService().signInWithEmail(this.email, this.senha);
+            AuthService().signInWithEmail(this.email, this.senha, context);
           }
         },
         padding: EdgeInsets.all(15.0),
