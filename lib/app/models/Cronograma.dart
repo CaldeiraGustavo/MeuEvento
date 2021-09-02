@@ -1,11 +1,9 @@
 class Cronograma {
-  final int id;
   final String descricao;
-  final int id_evento;
+  final bool status;
 
   const Cronograma({
-    required this.id,
     required this.descricao,
-    required this.id_evento
+    required this.status
   });
 }

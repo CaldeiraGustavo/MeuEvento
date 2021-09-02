@@ -1,15 +1,30 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:meu_evento/app/models/Cronograma.dart';
 
-class Cronograma {
-    final CollectionReference cronograma = FirebaseFirestore.instance.collection('cronograma');
+class CronogramaFirestore {
+  late CollectionReference cronograma;
 
-    Future<void> store(Cronograma c) {
+  CronogramaFirestore(docId) {
+    cronograma = FirebaseFirestore.instance
+        .collection('Evento')
+        .doc(docId)
+        .collection('Cronograma');
+  }
+  Future<void> store(Cronograma c) {
       return cronograma
           .add({
-        'ordem': "1",
-        'nome': "Florista"
+        'title': c.descricao,
+        'ok': c.status
       })
-          .then((value) => print("User Added"))
-          .catchError((error) => print("Failed to add user: $error"));
+          .then((value) => print(c.descricao))
+          .catchError((error) => print("Failed to add Cronograma: $error"));
     }
+
+  Future<void> delete(id) {
+    return cronograma
+        .doc(id)
+        .delete()
+        .then((value) => print("deletado"))
+        .catchError((error) => print("Erro: $error"));
+  }
 }

@@ -4,6 +4,8 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:meu_evento/app/db/CronogramaFirestore.dart';
+import 'package:meu_evento/app/models/Cronograma.dart';
 import 'package:path_provider/path_provider.dart';
 
 class cronogramaPage extends StatefulWidget {
@@ -27,16 +29,15 @@ class _cronogramaPageState extends State<cronogramaPage> {
   void initState() {
     super.initState();
 
-    // _readData().then((data) {
-    //   setState(() {
-    //     _toDoList = json.decode(data!);
-    //   });
-    // });
+    _readData().then((data) {
+      setState(() {
+        _toDoList = json.decode(data!);
+      });
+    });
   }
 
   Future<Null> _refresh() async {
     await Future.delayed(Duration(seconds: 1));
-    print(widget.noteId);
     setState(() {
       _toDoList.sort((a, b) {
         if (a["ok"] && !b["ok"])
@@ -57,12 +58,22 @@ class _cronogramaPageState extends State<cronogramaPage> {
     setState(() {
       Map<String, dynamic> newToDo = Map();
       newToDo["title"] = _toDoController.text;
-      _toDoController.text = "";
+
       newToDo["ok"] = false;
       _toDoList.add(newToDo);
 
+      CronogramaFirestore fire = new CronogramaFirestore(widget.noteId);
+      Cronograma c =
+          new Cronograma(descricao: _toDoController.text, status: false);
+      fire.store(c);
+      _toDoController.text = "";
       _saveData();
     });
+  }
+
+  void deleteTx(id) async {
+    CronogramaFirestore fire = new CronogramaFirestore(widget.noteId);
+    fire.delete(id);
   }
 
   @override
@@ -98,7 +109,8 @@ class _cronogramaPageState extends State<cronogramaPage> {
                               decoration: InputDecoration(
                                   labelText: "Novo item",
                                   labelStyle:
-                                      TextStyle(color: Colors.blueAccent)),
+                                  TextStyle(color: Colors.white)),
+                              style: TextStyle(color: Colors.white),
                             ),
                           ),
                           RaisedButton(
@@ -135,7 +147,8 @@ class _cronogramaPageState extends State<cronogramaPage> {
                               ),
                               direction: DismissDirection.startToEnd,
                               child: CheckboxListTile(
-                                title: Text(data2["title"]),
+                                title: Text(data2["title"],
+                                  style: TextStyle(color: Colors.white),),
                                 value: data2["ok"],
                                 secondary: CircleAvatar(
                                   child: Icon(
@@ -159,6 +172,7 @@ class _cronogramaPageState extends State<cronogramaPage> {
                                         label: "Desfazer",
                                         onPressed: () {
                                           setState(() {
+                                            deleteTx(_lastRemovedPos);
                                             _toDoList.insert(
                                                 _lastRemovedPos, _lastRemoved);
                                             _saveData();
@@ -195,7 +209,8 @@ class _cronogramaPageState extends State<cronogramaPage> {
       ),
       direction: DismissDirection.startToEnd,
       child: CheckboxListTile(
-        title: Text(_toDoList[index]["title"]),
+        title: Text(
+            _toDoList[index]["title"], style: TextStyle(color: Colors.white)),
         value: _toDoList[index]["ok"],
         secondary: CircleAvatar(
           child: Icon(_toDoList[index]["ok"] ? Icons.check : Icons.error),
@@ -256,8 +271,4 @@ class _cronogramaPageState extends State<cronogramaPage> {
       return null;
     }
   }
-
-  // Widget buildItem2(BuildContext context, int index) {
-  //   return ;
-  // }
 }
