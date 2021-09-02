@@ -29,7 +29,7 @@ class _NavigationState extends State<Navigation> {
             cronogramaPage(noteId: widget.note.id),
             ConvidadosPage(noteId: widget.note.id),
             OrcamentoList(noteId: widget.note.id),
-            ContratosPage(),
+            ContratosPage(noteId: widget.note.id),
           ]
         });
   }
