@@ -108,8 +108,7 @@ class _cronogramaPageState extends State<cronogramaPage> {
                               controller: _toDoController,
                               decoration: InputDecoration(
                                   labelText: "Novo item",
-                                  labelStyle:
-                                  TextStyle(color: Colors.white)),
+                                  labelStyle: TextStyle(color: Colors.white)),
                               style: TextStyle(color: Colors.white),
                             ),
                           ),
@@ -147,19 +146,19 @@ class _cronogramaPageState extends State<cronogramaPage> {
                               ),
                               direction: DismissDirection.startToEnd,
                               child: CheckboxListTile(
-                                title: Text(data2["title"],
-                                  style: TextStyle(color: Colors.white),),
+                                onChanged: (value) async {
+                                  await updateNote(data2["title"], value,
+                                      document.reference.id);
+                                },
+                                title: Text(
+                                  data2["title"],
+                                  style: TextStyle(color: Colors.white),
+                                ),
                                 value: data2["ok"],
                                 secondary: CircleAvatar(
                                   child: Icon(
                                       data2["ok"] ? Icons.check : Icons.error),
                                 ),
-                                onChanged: (c) {
-                                  setState(() {
-                                    data2["ok"] = c;
-                                    _saveData();
-                                  });
-                                },
                               ),
                               onDismissed: (direction) {
                                 setState(() {
@@ -209,8 +208,8 @@ class _cronogramaPageState extends State<cronogramaPage> {
       ),
       direction: DismissDirection.startToEnd,
       child: CheckboxListTile(
-        title: Text(
-            _toDoList[index]["title"], style: TextStyle(color: Colors.white)),
+        title: Text(_toDoList[index]["title"],
+            style: TextStyle(color: Colors.white)),
         value: _toDoList[index]["ok"],
         secondary: CircleAvatar(
           child: Icon(_toDoList[index]["ok"] ? Icons.check : Icons.error),
@@ -270,5 +269,12 @@ class _cronogramaPageState extends State<cronogramaPage> {
     } catch (e) {
       return null;
     }
+  }
+
+  Future updateNote(title, ok, id) async {
+    final note = Cronograma(descricao: title, status: ok);
+
+    CronogramaFirestore e = new CronogramaFirestore(widget.noteId);
+    e.update(note, id);
   }
 }
