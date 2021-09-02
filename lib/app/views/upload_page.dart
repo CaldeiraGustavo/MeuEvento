@@ -8,18 +8,21 @@ import 'package:meu_evento/app/db/ContratoFirebase.dart';
 import 'package:meu_evento/app/widget/button_widget.dart';
 import 'package:path/path.dart';
 
-class uploadPage extends StatefulWidget {
+class UploadPage extends StatefulWidget {
+  final String noteId;
+  const UploadPage({Key? key, required this.noteId}) : super(key: key);
   @override
-  _uploadPageState createState() => _uploadPageState();
+  _UploadPageState createState() => _UploadPageState();
 }
 
-class _uploadPageState extends State<uploadPage> {
+class _UploadPageState extends State<UploadPage> {
   UploadTask? task;
   File? file;
 
   @override
   Widget build(BuildContext context) {
-    final fileName = file != null ? basename(file!.path) : 'No File Selected';
+    final fileName =
+        file != null ? basename(file!.path) : 'Nenhum arquivo selecionado.';
     return Scaffold(
       appBar: AppBar(
         title: Text("Anexar Contratos"),
@@ -69,14 +72,16 @@ class _uploadPageState extends State<uploadPage> {
     if (file == null) return;
 
     final fileName = basename(file!.path);
-    final destination = 'files/$fileName';
+    final destination = widget.noteId + '/files/$fileName';
 
     task = FirebaseApi.uploadFile(destination, file!);
     setState(() {});
 
     if (task == null) return;
 
-    final snapshot = await task!.whenComplete(() {});
+    final snapshot = await task!.whenComplete(() {
+      Navigator.pop(this.context);
+    });
     final urlDownload = await snapshot.ref.getDownloadURL();
 
     print('Download-Link: $urlDownload');

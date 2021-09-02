@@ -5,11 +5,14 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:meu_evento/app/db/ContratoFirebase.dart';
+import 'package:meu_evento/app/views/upload_page.dart';
 import 'package:meu_evento/app/widget/button_widget.dart';
 import 'package:meu_evento/app/models/Firebase_file.dart';
 import 'package:path/path.dart';
 
 class ContratosPage extends StatefulWidget {
+  final String noteId;
+  const ContratosPage({Key? key, required this.noteId}) : super(key: key);
   @override
   _ContratosPageState createState() => _ContratosPageState();
 }
@@ -20,8 +23,6 @@ class _ContratosPageState extends State<ContratosPage> {
   @override
   void initState() {
     super.initState();
-
-    futureFiles = FirebaseApi.listAll('files/');
   }
 
   UploadTask? task;
@@ -35,11 +36,15 @@ class _ContratosPageState extends State<ContratosPage> {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: FloatingActionButton(
             child: Icon(Icons.upload),
-            onPressed: () {
-              print('oi');
+            onPressed: () async {
+              await Navigator.of(context)
+                  .push(MaterialPageRoute(
+                    builder: (context) => UploadPage(noteId: widget.noteId),
+                  ))
+                  .then((value) => setState(() {}));
             }),
         body: FutureBuilder<List<FirebaseFile>>(
-          future: futureFiles,
+          future: FirebaseApi.listAll(widget.noteId + '/files/'),
           builder: (context, snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.waiting:
@@ -105,56 +110,12 @@ class _ContratosPageState extends State<ContratosPage> {
           ),
         ),
         title: Text(
-          '$length Files',
+          '$length Arquivo(s)',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 20,
             color: Colors.white,
           ),
         ),
-      );
-
-  Future selectFile() async {
-    final result = await FilePicker.platform.pickFiles(allowMultiple: false);
-
-    if (result == null) return;
-    final path = result.files.single.path!;
-
-    setState(() => file = File(path));
-  }
-
-  Future uploadFile() async {
-    if (file == null) return;
-
-    final fileName = basename(file!.path);
-    final destination = 'files/$fileName';
-
-    task = FirebaseApi.uploadFile(destination, file!);
-    setState(() {});
-
-    if (task == null) return;
-
-    final snapshot = await task!.whenComplete(() {});
-    final urlDownload = await snapshot.ref.getDownloadURL();
-
-    print('Download-Link: $urlDownload');
-  }
-
-  Widget buildUploadStatus(UploadTask task) => StreamBuilder<TaskSnapshot>(
-        stream: task.snapshotEvents,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            final snap = snapshot.data!;
-            final progress = snap.bytesTransferred / snap.totalBytes;
-            final percentage = (progress * 100).toStringAsFixed(2);
-
-            return Text(
-              '$percentage %',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            );
-          } else {
-            return Container();
-          }
-        },
       );
 }
