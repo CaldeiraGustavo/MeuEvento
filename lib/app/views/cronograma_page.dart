@@ -55,20 +55,19 @@ class _cronogramaPageState extends State<cronogramaPage> {
   }
 
   void _addToDo() {
-    setState(() {
-      Map<String, dynamic> newToDo = Map();
-      newToDo["title"] = _toDoController.text;
+    if (_toDoController.text != "") {
+      setState(() {
+        Map<String, dynamic> newToDo = Map();
+        newToDo["title"] = _toDoController.text;
 
-      newToDo["ok"] = false;
-      _toDoList.add(newToDo);
+        newToDo["ok"] = false;
+        _toDoList.add(newToDo);
 
-      CronogramaFirestore fire = new CronogramaFirestore(widget.noteId);
-      Cronograma c =
-          new Cronograma(descricao: _toDoController.text, status: false);
-      fire.store(c);
-      _toDoController.text = "";
-      _saveData();
-    });
+        addNote(_toDoController.text, false);
+        _toDoController.text = "";
+        _saveData();
+      });
+    }
   }
 
   void deleteTx(id) async {
@@ -87,6 +86,7 @@ class _cronogramaPageState extends State<cronogramaPage> {
               .collection('Evento')
               .doc(widget.noteId)
               .collection('Cronograma')
+              .orderBy('ok')
               .snapshots(),
           builder: (BuildContext context, snapshot) {
             if (snapshot.hasError) {
@@ -156,26 +156,25 @@ class _cronogramaPageState extends State<cronogramaPage> {
                                 ),
                                 value: data2["ok"],
                                 secondary: CircleAvatar(
-                                  child: Icon(
-                                      data2["ok"] ? Icons.check : Icons.error),
+                                  child: Icon(data2["ok"]
+                                      ? Icons.check
+                                      : Icons.radio_button_unchecked),
                                 ),
                               ),
-                              onDismissed: (direction) {
+                              onDismissed: (direction) async {
+                                final backup = Cronograma(
+                                    descricao: data2["title"],
+                                    status: data2["ok"]);
+                                await deleteNote(document.reference.id);
                                 setState(() {
-                                  _lastRemoved = Map.from(data2);
-
                                   final snack = SnackBar(
                                     content: Text(
-                                        "Tarefa \"${_lastRemoved["title"]}\" removida!"),
+                                        "Tarefa \"${backup.descricao}\" removida!"),
                                     action: SnackBarAction(
                                         label: "Desfazer",
-                                        onPressed: () {
-                                          setState(() {
-                                            deleteTx(_lastRemovedPos);
-                                            _toDoList.insert(
-                                                _lastRemovedPos, _lastRemoved);
-                                            _saveData();
-                                          });
+                                        onPressed: () async {
+                                          await addNote(
+                                              backup.descricao, backup.status);
                                         }),
                                     duration: Duration(seconds: 2),
                                   );
@@ -223,12 +222,6 @@ class _cronogramaPageState extends State<cronogramaPage> {
       ),
       onDismissed: (direction) {
         setState(() {
-          _lastRemoved = Map.from(_toDoList[index]);
-          _lastRemovedPos = index;
-          _toDoList.removeAt(index);
-
-          //_saveData();
-
           final snack = SnackBar(
             content: Text("Tarefa \"${_lastRemoved["title"]}\" removida!"),
             action: SnackBarAction(
@@ -275,6 +268,18 @@ class _cronogramaPageState extends State<cronogramaPage> {
     final note = Cronograma(descricao: title, status: ok);
 
     CronogramaFirestore e = new CronogramaFirestore(widget.noteId);
-    e.update(note, id);
+    await e.update(note, id);
+  }
+
+  Future deleteNote(id) async {
+    CronogramaFirestore e = new CronogramaFirestore(widget.noteId);
+    await e.delete(id);
+  }
+
+  Future addNote(String title, bool? ok) async {
+    CronogramaFirestore fire = new CronogramaFirestore(widget.noteId);
+    var bool = ok == null ? false : ok;
+    Cronograma c = new Cronograma(descricao: title, status: bool);
+    fire.store(c);
   }
 }
