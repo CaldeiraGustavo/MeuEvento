@@ -7,10 +7,12 @@ class NoteFormWidget extends StatelessWidget {
   final String? Conjuge2;
   final int? QtdConvidados;
   final String? DataEvento;
+  final String? Endereco;
   final ValueChanged<String> onChangedNome;
   final ValueChanged<String> onChangedConvidados;
   final ValueChanged<String> onChangedConjuge1;
   final ValueChanged<String> onChangedConjuge2;
+  final ValueChanged<String> onChangedEndereco;
   final ValueChanged<String> onChangedData;
 
   const NoteFormWidget({
@@ -18,12 +20,14 @@ class NoteFormWidget extends StatelessWidget {
     this.Nome = '',
     this.Conjuge1 = '',
     this.Conjuge2 = '',
-    this.QtdConvidados = 0,
     this.DataEvento = null,
+    this.QtdConvidados,
+    this.Endereco,
     required this.onChangedNome,
     required this.onChangedConjuge1,
     required this.onChangedConjuge2,
     required this.onChangedConvidados,
+    required this.onChangedEndereco,
     required this.onChangedData,
   }) : super(key: key);
 
@@ -39,8 +43,8 @@ class NoteFormWidget extends StatelessWidget {
           buildConjuge1(),
           SizedBox(height: 8),
           buildConjuge2(),
-              SizedBox(height: 8),
-              buildConvidados(),
+          SizedBox(height: 8),
+          buildEndereco(),
           SizedBox(height: 8),
           buildDataEvento(),
           SizedBox(height: 8),
@@ -150,4 +154,26 @@ class NoteFormWidget extends StatelessWidget {
         : null,
     onChanged: onChangedData,
   );
+
+  Widget buildEndereco() =>
+      TextFormField(
+        maxLines: 1,
+        style: TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+          fontSize: 20,
+        ),
+        decoration: InputDecoration(
+          labelText: "Endereço",
+          border: InputBorder.none,
+          hintText: 'Endereço do Evento',
+          hintStyle: TextStyle(color: Colors.white, fontSize: 10),
+        ),
+        controller: TextEditingController(text: this.Endereco),
+        validator: (title) =>
+        title != null && title.isEmpty
+            ? 'Este campo não pode ser nulo'
+            : null,
+        onChanged: onChangedEndereco,
+      );
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:meu_evento/app/db/EventoFirestore.dart';
-import 'package:meu_evento/app/db/events_database.dart';
 import 'package:meu_evento/app/models/Evento.dart';
 import 'package:meu_evento/app/widget/NoteFormWidget.dart';
 
@@ -22,6 +21,7 @@ class _EventoFormState extends State<EventoForm> {
   late String nome;
   late String conjuge1;
   late String conjuge2;
+  late String endereco;
   late int qtdConvidados;
   late String dataEvento;
 
@@ -31,6 +31,7 @@ class _EventoFormState extends State<EventoForm> {
     nome = widget.evento?.nome ?? '';
     conjuge1 = widget.evento?.conjuge1 ?? '';
     conjuge2 = widget.evento?.conjuge2 ?? '';
+    endereco = widget.evento?.endereco ?? '';
     qtdConvidados = widget.evento?.convidados ?? 0;
     dataEvento = widget.evento?.data ?? '';
   }
@@ -47,17 +48,21 @@ class _EventoFormState extends State<EventoForm> {
               Nome: nome,
               Conjuge1: conjuge1,
               Conjuge2: conjuge2,
-              QtdConvidados: qtdConvidados,
+            Endereco: endereco,
+            QtdConvidados: qtdConvidados,
               DataEvento: dataEvento,
-              onChangedNome: (nome) => {this.nome = nome},
+            onChangedNome: (nome) =>
+            {this.nome = nome},
               onChangedConjuge1: (conjuge1) =>
                   {this.conjuge1 = conjuge1},
               onChangedConjuge2: (conjuge2) =>
                   {this.conjuge2 = conjuge2},
+            onChangedEndereco: (endereco) =>
+            {this.endereco: endereco},
               onChangedConvidados: (qtdconvidados) =>
                   {this.qtdConvidados = int.parse(qtdconvidados)},
               onChangedData: (dataEvento) =>
-                  {this.dataEvento = dataEvento}),
+              {this.dataEvento = dataEvento},),
         ),
       ),
     );
@@ -95,11 +100,13 @@ class _EventoFormState extends State<EventoForm> {
       nome: nome,
       conjuge1: conjuge1,
       conjuge2: conjuge2,
+      endereco: endereco,
       convidados: qtdConvidados,
       data: dataEvento,
     );
 
     EventoFirestore e = new EventoFirestore();
     e.store(note);
+    print(note);
   }
 }

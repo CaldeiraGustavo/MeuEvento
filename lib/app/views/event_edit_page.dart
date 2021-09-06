@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:meu_evento/app/db/EventoFirestore.dart';
-import 'package:meu_evento/app/db/events_database.dart';
 import 'package:meu_evento/app/models/Evento.dart';
 import 'package:meu_evento/app/widget/NoteFormWidget.dart';
 
@@ -21,6 +20,7 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
   late String nome;
   late String conjuge1;
   late String conjuge2;
+  late String endereco;
   late int qtdConvidados;
   late String dataEvento;
 
@@ -30,6 +30,7 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
     nome = widget.event['nome'] ?? '';
     conjuge1 = widget.event['conjuge1'] ?? '';
     conjuge2 = widget.event['conjuge2'] ?? '';
+    endereco = widget.event['endereco'] ?? '';
     qtdConvidados = widget.event['convidados'] ?? 0;
     dataEvento = widget.event['data'] ?? '';
   }
@@ -45,7 +46,8 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
             Nome: nome,
             Conjuge1: conjuge1,
             Conjuge2: conjuge2,
-            QtdConvidados: qtdConvidados,
+              Endereco: endereco,
+              QtdConvidados: qtdConvidados,
               DataEvento: dataEvento,
               onChangedNome: (nome) => {this.nome = nome},
               onChangedConjuge1: (conjuge1) =>
@@ -55,7 +57,10 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
               onChangedConvidados: (qtdconvidados) =>
                 {this.qtdConvidados = qtdconvidados as int},
               onChangedData: (dataEvento) =>
-                {this.dataEvento = dataEvento}),
+              {this.dataEvento = dataEvento},
+              onChangedEndereco: (endereco) =>
+              {this.endereco = endereco}
+          ),
         ),
       );
 
@@ -97,6 +102,7 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
       nome: nome,
       conjuge1: conjuge1,
       conjuge2: conjuge2,
+      endereco: endereco,
       convidados: qtdConvidados,
       data: dataEvento,
     );
@@ -110,6 +116,7 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
       nome: nome,
       conjuge1: conjuge1,
       conjuge2: conjuge2,
+      endereco: endereco,
       convidados: qtdConvidados,
       data: dataEvento,
     );

@@ -3,13 +3,14 @@ final String eventsNotes = 'events';
 class EventFields {
   static final List<String> values = [
     /// Add all fields
-    id, nome, conjuge1, conjuge2, convidados, data
+    id, nome, conjuge1, conjuge2, endereco, convidados, data
   ];
 
   static final String id = '_id';
   static final String nome = 'nome';
   static final String conjuge1 = 'conjuge1';
   static final String conjuge2 = 'conjuge2';
+  static final String endereco = 'endereco';
   static final String convidados = 'convidados';
   static final String data = 'data';
 }
@@ -19,6 +20,7 @@ class Event {
   final String nome;
   final String conjuge1;
   final String conjuge2;
+  final String endereco;
   final int convidados;
   final String data;
 
@@ -27,6 +29,7 @@ class Event {
     required this.nome,
     required this.conjuge1,
     required this.conjuge2,
+    required this.endereco,
     required this.convidados,
     required this.data,
   });
@@ -36,6 +39,7 @@ class Event {
     String? nome,
     String? conjuge1,
     String? conjuge2,
+    String? endereco,
     int? convidados,
     String? data,
   }) =>
@@ -44,6 +48,7 @@ class Event {
         nome: nome ?? this.nome,
         conjuge1: conjuge1 ?? this.conjuge1,
         conjuge2: conjuge2 ?? this.conjuge2,
+        endereco: endereco ?? this.endereco,
         convidados: convidados ?? this.convidados,
         data: data ?? this.data,
       );
@@ -53,8 +58,10 @@ class Event {
         nome: json[EventFields.nome] as String,
         conjuge1: json[EventFields.conjuge1] as String,
         conjuge2: json[EventFields.conjuge2] as String,
+        endereco: json[EventFields.endereco] as String,
         convidados: json[EventFields.convidados] as int,
         data: json[EventFields.data] as String,
+
       );
 
   Map<String, Object?> toJson() => {
@@ -62,6 +69,7 @@ class Event {
         EventFields.nome: nome,
         EventFields.conjuge1: conjuge1,
         EventFields.conjuge2: conjuge2,
+    EventFields.endereco: endereco,
         EventFields.convidados: convidados,
     EventFields.data: data,
       };

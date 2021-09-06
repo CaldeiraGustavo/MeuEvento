@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:meu_evento/app/db/EventoFirestore.dart';
-import 'package:meu_evento/app/models/Evento.dart';
-import 'package:meu_evento/app/db/events_database.dart';
 
 import 'event_edit_page.dart';
 
@@ -74,6 +71,11 @@ class _EventDetailPageState extends State<EventDetailPage> {
                     SizedBox(height: 8),
                     Text(
                       "Convidados: " + note['convidados'].toString(),
+                      style: TextStyle(color: Colors.white, fontSize: 22),
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      "Endereço: " + note['endereco'].toString(),
                       style: TextStyle(color: Colors.white, fontSize: 22),
                     )
                   ],

@@ -1,6 +1,6 @@
 class Endereco {
   final int id;
-  final int id_cidade;
+  final int cidade;
   final String logradouro;
   final int numero;
   final String complemento;
@@ -9,8 +9,8 @@ class Endereco {
 
   const Endereco({
     required this.id,
-    required this.id_cidade,
-    required this.logradouro,
+      required this.cidade,
+      required this.logradouro,
     required this.numero,
     required this.complemento,
     required this.bairro,

@@ -5,11 +5,11 @@ class EventoFirestore {
   final CollectionReference evento = FirebaseFirestore.instance.collection('Evento');
 
   Future<void> store(Event ev) {
-    // Call the user's CollectionReference to add a new user
     return evento.add({
       'nome': ev.nome,
       'conjuge1': ev.conjuge1,
       'conjuge2': ev.conjuge2,
+      'endereco': ev.endereco,
       'convidados': ev.convidados,
       'data': ev.data,
     })
@@ -32,6 +32,7 @@ class EventoFirestore {
           'nome': ev.nome,
           'conjuge1': ev.conjuge1,
           'conjuge2': ev.conjuge2,
+      'endereco': ev.endereco,
           'convidados': ev.convidados,
           'data': ev.data,
         })
