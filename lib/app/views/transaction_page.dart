@@ -1,15 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:meu_evento/app/db/OrcamentoFirestore.dart';
 import 'package:meu_evento/app/models/Orcamento.dart';
 import 'package:meu_evento/app/widget/new_transaction.dart';
 
 class OrcamentoList extends StatefulWidget {
   final String noteId;
-  const OrcamentoList({
-    Key? key,
-    required this.noteId
-  }) : super(key: key);
+  const OrcamentoList({Key? key, required this.noteId}) : super(key: key);
 
   @override
   _OrcamentoListState createState() => _OrcamentoListState();
@@ -22,6 +20,7 @@ class _OrcamentoListState extends State<OrcamentoList> {
   void initState() {
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,27 +37,30 @@ class _OrcamentoListState extends State<OrcamentoList> {
           if (snapshot.hasError) {
             return Text('Something went wrong');
           }
-          switch(snapshot.connectionState){
+          switch (snapshot.connectionState) {
             case ConnectionState.none:
             case ConnectionState.waiting:
-              return Center (child: CircularProgressIndicator());
+              return Center(child: CircularProgressIndicator());
             default:
               return new ListView(
-                children: (snapshot.data!).docs.map((DocumentSnapshot document) {
-                  Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+                children:
+                    (snapshot.data!).docs.map((DocumentSnapshot document) {
+                  Map<String, dynamic> data =
+                      document.data() as Map<String, dynamic>;
                   return Card(
                     margin: EdgeInsets.all(10),
                     elevation: 5,
                     child: ListTile(
                       leading: CircleAvatar(
                           backgroundColor: data['tipo'] == "Recebido"
-                                ? Colors.green.shade600
-                                : Colors.red,
+                              ? Colors.green.shade600
+                              : Colors.red,
                           radius: 30,
                           child: Container(
                             padding: EdgeInsets.all(10),
                             child: FittedBox(
-                              child: Text('R\$${data['valor']}'),
+                              child: Text(
+                                  '${NumberFormat.currency(symbol: 'R\$ ').format(data['valor'])}'),
                             ),
                           )),
                       title: Text(
@@ -78,8 +80,8 @@ class _OrcamentoListState extends State<OrcamentoList> {
                 }).toList(),
               );
           }
-          },
-        ),
+        },
+      ),
     );
   }
 

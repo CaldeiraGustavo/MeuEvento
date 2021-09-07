@@ -45,32 +45,28 @@ class _EventoFormState extends State<EventoForm> {
         child: Form(
           key: _form,
           child: NoteFormWidget(
-              Nome: nome,
-              Conjuge1: conjuge1,
-              Conjuge2: conjuge2,
+            Nome: nome,
+            Conjuge1: conjuge1,
+            Conjuge2: conjuge2,
             Endereco: endereco,
             QtdConvidados: qtdConvidados,
-              DataEvento: dataEvento,
-            onChangedNome: (nome) =>
-            {this.nome = nome},
-              onChangedConjuge1: (conjuge1) =>
-                  {this.conjuge1 = conjuge1},
-              onChangedConjuge2: (conjuge2) =>
-                  {this.conjuge2 = conjuge2},
-            onChangedEndereco: (endereco) =>
-            {this.endereco: endereco},
-              onChangedConvidados: (qtdconvidados) =>
-                  {this.qtdConvidados = int.parse(qtdconvidados)},
-              onChangedData: (dataEvento) =>
-              {this.dataEvento = dataEvento},),
+            DataEvento: dataEvento,
+            onChangedNome: (nome) => {this.nome = nome},
+            onChangedConjuge1: (conjuge1) => {this.conjuge1 = conjuge1},
+            onChangedConjuge2: (conjuge2) => {this.conjuge2 = conjuge2},
+            onChangedEndereco: (endereco) => {this.endereco = endereco},
+            onChangedConvidados: (qtdconvidados) =>
+                {this.qtdConvidados = int.parse(qtdconvidados)},
+            onChangedData: (dataEvento) => {this.dataEvento = dataEvento},
+          ),
         ),
       ),
     );
   }
 
   Widget buildButton() {
-    final isFormValid = nome.isEmpty && conjuge1.isNotEmpty &&
-        conjuge2.isNotEmpty;
+    final isFormValid =
+        nome.isEmpty && conjuge1.isNotEmpty && conjuge2.isNotEmpty;
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
       child: ElevatedButton(
