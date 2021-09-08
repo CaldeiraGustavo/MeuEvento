@@ -39,15 +39,24 @@ class NoteFormWidget extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               buildTitle(),
-              SizedBox(height: 8),
+              SizedBox(height: 10),
               buildConjuge1(),
-              SizedBox(height: 8),
+              SizedBox(height: 10),
               buildConjuge2(),
-              SizedBox(height: 8),
+              SizedBox(height: 10),
               buildEndereco(),
-              SizedBox(height: 8),
+              SizedBox(height: 10),
               buildDataEvento(),
-              SizedBox(height: 8),
+              SizedBox(height: 15),
+              Text(
+                "Convidados:",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
+              ),
+              buildConvidados(),
+              SizedBox(height: 10),
             ],
           ),
         ),
@@ -61,10 +70,9 @@ class NoteFormWidget extends StatelessWidget {
           fontSize: 20,
         ),
         decoration: InputDecoration(
-          labelText: "Nome do evento",
           border: InputBorder.none,
           hintText: 'Identificação da cerimônia',
-          hintStyle: TextStyle(color: Colors.white, fontSize: 10),
+          hintStyle: TextStyle(color: Colors.white, fontSize: 20),
         ),
         controller: TextEditingController(text: this.Nome),
         validator: (title) =>
@@ -80,10 +88,9 @@ class NoteFormWidget extends StatelessWidget {
           fontSize: 20,
         ),
         decoration: InputDecoration(
-          labelText: "Conjuge 1",
           border: InputBorder.none,
-          hintText: 'Nome do Conjuge 1',
-          hintStyle: TextStyle(color: Colors.white, fontSize: 10),
+          hintText: 'Conjuge 1',
+          hintStyle: TextStyle(color: Colors.white, fontSize: 20),
         ),
         controller: TextEditingController(text: this.Conjuge1),
         validator: (title) =>
@@ -99,10 +106,9 @@ class NoteFormWidget extends StatelessWidget {
           fontSize: 20,
         ),
         decoration: InputDecoration(
-          labelText: "Conjuge 2",
           border: InputBorder.none,
-          hintText: 'Nome do conjuge 2',
-          hintStyle: TextStyle(color: Colors.white, fontSize: 10),
+          hintText: 'Conjuge 2',
+          hintStyle: TextStyle(color: Colors.white, fontSize: 20),
         ),
         controller: TextEditingController(text: this.Conjuge2),
         validator: (title) => title != null && title.isEmpty
@@ -119,13 +125,12 @@ class NoteFormWidget extends StatelessWidget {
           fontWeight: FontWeight.bold,
           fontSize: 20,
         ),
-        controller: TextEditingController(text: this.QtdConvidados.toString()),
         decoration: InputDecoration(
-          labelText: "Convidados",
           border: InputBorder.none,
-          hintText: 'Quantidade de convidados',
-          hintStyle: TextStyle(color: Colors.white, fontSize: 10),
+          hintText: 'Convidados',
+          hintStyle: TextStyle(color: Colors.white, fontSize: 20),
         ),
+    controller: TextEditingController(text: this.QtdConvidados.toString()),
         validator: (title) => title != null && title.isEmpty
             ? 'Este campo não pode ser nulo'
             : null,
@@ -141,10 +146,9 @@ class NoteFormWidget extends StatelessWidget {
           fontSize: 20,
         ),
         decoration: InputDecoration(
-          labelText: "Data",
           border: InputBorder.none,
           hintText: 'Data da cerimônia',
-          hintStyle: TextStyle(color: Colors.white, fontSize: 10),
+          hintStyle: TextStyle(color: Colors.white, fontSize: 20),
         ),
         controller: TextEditingController(text: this.DataEvento),
         validator: (title) => title != null && title.isEmpty
@@ -161,10 +165,9 @@ class NoteFormWidget extends StatelessWidget {
           fontSize: 20,
         ),
         decoration: InputDecoration(
-          labelText: "Endereço",
           border: InputBorder.none,
           hintText: 'Endereço do Evento',
-          hintStyle: TextStyle(color: Colors.white, fontSize: 10),
+          hintStyle: TextStyle(color: Colors.white, fontSize: 20),
         ),
         controller: TextEditingController(text: this.Endereco),
         validator: (title) => title != null && title.isEmpty

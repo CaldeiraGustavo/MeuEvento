@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:meu_evento/app/services/auth.dart';
-import 'package:meu_evento/app/views/evento_list.dart';
 import 'package:meu_evento/constants.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -176,68 +175,68 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _buildSignInWithText() {
     return Column(
       children: <Widget>[
-        Text(
-          ' OU ',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w400,
-          ),
-        ),
+//        Text(
+//          ' OU ',
+//          style: TextStyle(
+//            color: Colors.white,
+//            fontWeight: FontWeight.w400,
+//          ),
+//        ),
         SizedBox(height: 20.0),
-        Text(
-          'Entrar com',
-          style: kLabelStyle,
-        ),
+//        Text(
+//          'Entrar com',
+//          style: kLabelStyle,
+//        ),
       ],
     );
   }
 
-  Widget _buildSocialBtn(Function onTap, AssetImage logo) {
-    return GestureDetector(
-      onTap: () {},
-      child: Container(
-        height: 60.0,
-        width: 60.0,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black26,
-              offset: Offset(0, 2),
-              blurRadius: 6.0,
-            ),
-          ],
-          image: DecorationImage(
-            image: logo,
-          ),
-        ),
-      ),
-    );
-  }
+//  Widget _buildSocialBtn(Function onTap, AssetImage logo) {
+//    return GestureDetector(
+//      onTap: () {},
+//      child: Container(
+//        height: 60.0,
+//        width: 60.0,
+//        decoration: BoxDecoration(
+//          shape: BoxShape.circle,
+//          color: Colors.white,
+//          boxShadow: [
+//            BoxShadow(
+//              color: Colors.black26,
+//              offset: Offset(0, 2),
+//              blurRadius: 6.0,
+//            ),
+//          ],
+//          image: DecorationImage(
+//            image: logo,
+//          ),
+//        ),
+//      ),
+//    );
+//  }
 
-  Widget _buildSocialBtnRow() {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 30.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          _buildSocialBtn(
-            () => print('Login com Facebook'),
-            AssetImage(
-              'assets/logos/facebook.jpg',
-            ),
-          ),
-          _buildSocialBtn(
-            () => print('Login com Google'),
-            AssetImage(
-              'assets/logos/google.jpg',
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+//  Widget _buildSocialBtnRow() {
+//    return Padding(
+//      padding: EdgeInsets.symmetric(vertical: 30.0),
+//      child: Row(
+//        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//        children: <Widget>[
+//          _buildSocialBtn(
+//            () => print('Login com Facebook'),
+//            AssetImage(
+//              'assets/logos/facebook.jpg',
+//            ),
+//          ),
+//          _buildSocialBtn(
+//            () => print('Login com Google'),
+//            AssetImage(
+//              'assets/logos/google.jpg',
+//            ),
+//          ),
+//        ],
+//      ),
+//    );
+//  }
 
   @override
   Widget build(BuildContext context) {
@@ -296,7 +295,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         _buildRememberMeCheckbox(),
                         _buildLoginBtn(),
                         _buildSignInWithText(),
-                        _buildSocialBtnRow(),
+                        //_buildSocialBtnRow(),
                       ],
                     ),
                   ),

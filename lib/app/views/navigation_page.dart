@@ -1,10 +1,12 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
+import 'package:meu_evento/app/views/contratos_page.dart';
 import 'package:meu_evento/app/views/convidados_page.dart';
 import 'package:meu_evento/app/views/cronograma_page.dart';
 import 'package:meu_evento/app/views/event_detail_page.dart';
 import 'package:meu_evento/app/views/transaction_page.dart';
-import 'package:meu_evento/app/views/contratos_page.dart';
+
+import '../../constants.dart';
 
 class Navigation extends StatefulWidget {
   final dynamic note;
@@ -48,9 +50,9 @@ class _NavigationState extends State<Navigation> {
         child: pageList[pageIndex],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.black87,
-        unselectedItemColor: Colors.pinkAccent,
-        selectedItemColor: Colors.white,
+        backgroundColor: kContentColorLightTheme,
+        unselectedItemColor: Colors.white,
+        selectedItemColor: Colors.amberAccent,
         type: BottomNavigationBarType.fixed,
         currentIndex: pageIndex, // this will be set when a new tab is tapped
         onTap: (value) {
