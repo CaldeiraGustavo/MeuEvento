@@ -25,6 +25,7 @@ class _OrcamentoListState extends State<OrcamentoList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: Text("Orçamento"),
         actions: [addButton(context)],
       ),
       body: StreamBuilder<QuerySnapshot>(

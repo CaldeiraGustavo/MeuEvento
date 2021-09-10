@@ -86,7 +86,7 @@ class _cronogramaPageState extends State<cronogramaPage> {
               .collection('Evento')
               .doc(widget.noteId)
               .collection('Cronograma')
-              .orderBy('ok')
+              .orderBy('createdAt', descending: true)
               .snapshots(),
           builder: (BuildContext context, snapshot) {
             if (snapshot.hasError) {

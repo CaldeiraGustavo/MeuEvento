@@ -12,7 +12,11 @@ class CronogramaFirestore {
   }
   Future<void> store(Cronograma c) {
     return cronograma
-        .add({'title': c.descricao, 'ok': c.status})
+        .add({
+          'title': c.descricao,
+          'ok': c.status,
+          'createdAt': new DateTime.now()
+        })
         .then((value) => print(c.descricao))
         .catchError((error) => print("Failed to add Cronograma: $error"));
   }
