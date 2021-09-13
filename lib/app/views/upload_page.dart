@@ -42,7 +42,10 @@ class _UploadPageState extends State<UploadPage> {
               SizedBox(height: 8),
               Text(
                 fileName,
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white),
               ),
               SizedBox(height: 48),
               ButtonWidget(
@@ -97,7 +100,10 @@ class _UploadPageState extends State<UploadPage> {
 
             return Text(
               '$percentage %',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
             );
           } else {
             return Container();

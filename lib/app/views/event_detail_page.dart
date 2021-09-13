@@ -35,6 +35,7 @@ class _EventDetailPageState extends State<EventDetailPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
+          title: Text("Detalhes do evento"),
           actions: [editButton(), deleteButton()],
         ),
         body: isLoading
@@ -44,40 +45,84 @@ class _EventDetailPageState extends State<EventDetailPage> {
                 child: ListView(
                   padding: EdgeInsets.symmetric(vertical: 8),
                   children: [
-                    Text(
-                      note['nome'],
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
+                    Card(
+                      margin: EdgeInsets.all(10),
+                      elevation: 5,
+                      child: ListTile(
+                        title: Text(
+                          note['nome'],
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        subtitle: Text(
+                          'Nome do evento',
+                        ),
                       ),
                     ),
-                    SizedBox(height: 8),
-                    SizedBox(height: 8),
-                    Text(
-                      note['conjuge1'],
-                      style: TextStyle(color: Colors.white, fontSize: 22),
+                    Card(
+                      margin: EdgeInsets.all(10),
+                      elevation: 5,
+                      child: ListTile(
+                        title: Text(
+                          note['conjuge1'],
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        subtitle: Text(
+                          'Conjuge 1',
+                        ),
+                      ),
                     ),
-                    SizedBox(height: 8),
-                    Text(
-                      note["conjuge2"],
-                      style: TextStyle(color: Colors.white, fontSize: 22),
+                    Card(
+                      margin: EdgeInsets.all(10),
+                      elevation: 5,
+                      child: ListTile(
+                        title: Text(
+                          note['conjuge2'],
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        subtitle: Text(
+                          'Conjuge 2',
+                        ),
+                      ),
                     ),
-                    SizedBox(height: 8),
-                    Text(
-                      note["data"],
-                      style: TextStyle(color: Colors.white, fontSize: 22),
+                    Card(
+                      margin: EdgeInsets.all(10),
+                      elevation: 5,
+                      child: ListTile(
+                        title: Text(
+                          note['data'],
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        subtitle: Text(
+                          'Data',
+                        ),
+                      ),
                     ),
-                    SizedBox(height: 8),
-                    Text(
-                      "Convidados: " + note['convidados'].toString(),
-                      style: TextStyle(color: Colors.white, fontSize: 22),
+                    Card(
+                      margin: EdgeInsets.all(10),
+                      elevation: 5,
+                      child: ListTile(
+                        title: Text(
+                          note['convidados'].toString(),
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        subtitle: Text(
+                          'Quantidade de convidados',
+                        ),
+                      ),
                     ),
-                    SizedBox(height: 8),
-                    Text(
-                      "Endereço: " + note['endereco'].toString(),
-                      style: TextStyle(color: Colors.white, fontSize: 22),
-                    )
+                    Card(
+                      margin: EdgeInsets.all(10),
+                      elevation: 5,
+                      child: ListTile(
+                        title: Text(
+                          note['endereco'],
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        subtitle: Text(
+                          'Endereço',
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -96,12 +141,12 @@ class _EventDetailPageState extends State<EventDetailPage> {
       });
 
   Widget deleteButton() => IconButton(
-    icon: Icon(Icons.delete),
-    onPressed: () async {
-      EventoFirestore evt = new EventoFirestore();
-      await evt.delete(widget.note.id);
+        icon: Icon(Icons.delete),
+        onPressed: () async {
+          EventoFirestore evt = new EventoFirestore();
+          await evt.delete(widget.note.id);
 
-      Navigator.of(context).pop();
-    },
-  );
+          Navigator.of(context).pop();
+        },
+      );
 }
