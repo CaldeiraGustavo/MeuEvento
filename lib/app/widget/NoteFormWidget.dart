@@ -48,13 +48,6 @@ class NoteFormWidget extends StatelessWidget {
               SizedBox(height: 10),
               buildDataEvento(),
               SizedBox(height: 15),
-              Text(
-                "Convidados:",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold),
-              ),
               buildConvidados(),
               SizedBox(height: 10),
             ],
@@ -70,6 +63,7 @@ class NoteFormWidget extends StatelessWidget {
           fontSize: 20,
         ),
         decoration: InputDecoration(
+          labelText: "Nome:",
           border: InputBorder.none,
           hintText: 'Identificação da cerimônia',
           hintStyle: TextStyle(color: Colors.white, fontSize: 20),
@@ -88,6 +82,7 @@ class NoteFormWidget extends StatelessWidget {
           fontSize: 20,
         ),
         decoration: InputDecoration(
+          labelText: "Conjuge 1:",
           border: InputBorder.none,
           hintText: 'Conjuge 1',
           hintStyle: TextStyle(color: Colors.white, fontSize: 20),
@@ -106,13 +101,14 @@ class NoteFormWidget extends StatelessWidget {
           fontSize: 20,
         ),
         decoration: InputDecoration(
+          labelText: "Conjuge 2:",
           border: InputBorder.none,
           hintText: 'Conjuge 2',
           hintStyle: TextStyle(color: Colors.white, fontSize: 20),
         ),
         controller: TextEditingController(text: this.Conjuge2),
         validator: (title) => title != null && title.isEmpty
-            ? 'Este campo não pode ser nulo'
+            ? 'Este campo não pode ficar vazio'
             : null,
         onChanged: onChangedConjuge2,
       );
@@ -126,13 +122,14 @@ class NoteFormWidget extends StatelessWidget {
           fontSize: 20,
         ),
         decoration: InputDecoration(
+          labelText: "Convidados:",
           border: InputBorder.none,
           hintText: 'Convidados',
           hintStyle: TextStyle(color: Colors.white, fontSize: 20),
         ),
-    controller: TextEditingController(text: this.QtdConvidados.toString()),
+        controller: TextEditingController(text: this.QtdConvidados.toString()),
         validator: (title) => title != null && title.isEmpty
-            ? 'Este campo não pode ser nulo'
+            ? 'Este campo não pode ficar vazio'
             : null,
         onChanged: onChangedConvidados,
       );
@@ -146,13 +143,14 @@ class NoteFormWidget extends StatelessWidget {
           fontSize: 20,
         ),
         decoration: InputDecoration(
+          labelText: "Data:",
           border: InputBorder.none,
           hintText: 'Data da cerimônia',
           hintStyle: TextStyle(color: Colors.white, fontSize: 20),
         ),
         controller: TextEditingController(text: this.DataEvento),
         validator: (title) => title != null && title.isEmpty
-            ? 'Este campo não pode ser nulo'
+            ? 'Este campo não pode ficar vazio'
             : null,
         onChanged: onChangedData,
       );
@@ -165,13 +163,14 @@ class NoteFormWidget extends StatelessWidget {
           fontSize: 20,
         ),
         decoration: InputDecoration(
+          labelText: "Endereço:",
           border: InputBorder.none,
           hintText: 'Endereço do Evento',
           hintStyle: TextStyle(color: Colors.white, fontSize: 20),
         ),
         controller: TextEditingController(text: this.Endereco),
         validator: (title) => title != null && title.isEmpty
-            ? 'Este campo não pode ser nulo'
+            ? 'Este campo não pode ficar vazio'
             : null,
         onChanged: onChangedEndereco,
       );

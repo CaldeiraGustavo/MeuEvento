@@ -30,13 +30,16 @@ class App extends StatelessWidget {
       title: title,
       themeMode: ThemeMode.system,
       theme: ThemeData(
-        primaryColor: kButtonColor,
-        scaffoldBackgroundColor: kContentColorLightTheme,
-        appBarTheme: AppBarTheme(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-        ),
-      ),
+          primaryColor: kButtonColor,
+          scaffoldBackgroundColor: kContentColorLightTheme,
+          appBarTheme: AppBarTheme(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+          ),
+          inputDecorationTheme: const InputDecorationTheme(
+            labelStyle: TextStyle(color: Colors.white),
+            hintStyle: TextStyle(color: Colors.yellow),
+          )),
       home: StreamBuilder<User?>(
         stream: AuthService().getAuth().authStateChanges(),
         builder: (_, snapshot) {
