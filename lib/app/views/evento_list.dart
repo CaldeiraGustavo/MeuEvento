@@ -29,7 +29,7 @@ class _EventList extends State<EventoList> {
         actions: <Widget>[logoffButton()],
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection('Evento').snapshots(),
+        stream: FirebaseFirestore.instance.collection('Evento').orderBy("nome").snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
             return Text("{$snapshot.error}");
