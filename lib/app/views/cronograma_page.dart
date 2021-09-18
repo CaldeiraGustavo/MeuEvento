@@ -113,7 +113,7 @@ class _cronogramaPageState extends State<cronogramaPage> {
                             ),
                           ),
                           RaisedButton(
-                            color: Colors.blueAccent,
+                            color: Colors.pinkAccent.shade100,
                             child: Text("ADD"),
                             textColor: Colors.white,
                             onPressed: _addToDo,

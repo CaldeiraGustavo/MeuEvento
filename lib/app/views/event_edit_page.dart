@@ -72,7 +72,7 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           onPrimary: Colors.white,
-          primary: Colors.purpleAccent,
+          primary: Colors.pinkAccent.shade100,
         ),
         onPressed: addOrUpdateNote,
         child: Text('Salvar'),

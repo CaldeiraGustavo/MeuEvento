@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:meu_evento/app/db/OrcamentoFirestore.dart';
 import 'package:meu_evento/app/models/Orcamento.dart';
 
+import '../../constants.dart';
+
 class NewTransaction extends StatefulWidget {
   final dynamic noteId;
   NewTransaction({
@@ -39,51 +41,59 @@ class _NewTransactionState extends State<NewTransaction> {
 
     Navigator.of(context).pop();
   }
-  String dropdownValue = 'Recebido';
+  String dropdownValue = 'Receita';
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      child: Container(
-        padding: EdgeInsets.all(10),
-        margin: EdgeInsets.all(5),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            TextField(
-              decoration: InputDecoration(labelText: 'Descrição'),
-              controller: titleController,
-              onSubmitted: (_) => submitData,
+    return Padding(
+      padding: const EdgeInsets.all(0.0),
+      child: Card(
+        color: kContentColorLightTheme,
+        shadowColor: kContentColorLightTheme,
+        elevation: 5,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            padding: EdgeInsets.all(10),
+            margin: EdgeInsets.all(5),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                TextField(
+                  decoration: InputDecoration(labelText: 'Descrição',),
+                  controller: titleController,
+                  onSubmitted: (_) => submitData,
+                ),
+                TextField(
+                  decoration: InputDecoration(labelText: 'Preço'),
+                  controller: amountController,
+                  keyboardType: TextInputType.number,
+                  onSubmitted: (_) => submitData,
+                ),
+                DropdownButton<String>(
+                  value: dropdownValue,
+                  underline: Container(
+                    height: 2,
+                    color: Colors.white,
+                  ),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      dropdownValue = newValue!;
+                    });
+                  },
+                  items: <String>['Despesa', 'Receita']
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value, style: TextStyle(color: Colors.lightGreen)),
+                    );
+                  }).toList(),
+                ),
+                TextButton(
+                    child: Text('Adicionar', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                    onPressed: () => submitData())
+              ],
             ),
-            TextField(
-              decoration: InputDecoration(labelText: 'Preço'),
-              controller: amountController,
-              keyboardType: TextInputType.number,
-              onSubmitted: (_) => submitData,
-            ),
-            DropdownButton<String>(
-              value: dropdownValue,
-              underline: Container(
-                height: 2,
-                color: Colors.deepPurpleAccent,
-              ),
-              onChanged: (String? newValue) {
-                setState(() {
-                  dropdownValue = newValue!;
-                });
-              },
-              items: <String>['Gasto', 'Recebido']
-                  .map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-            ),
-            TextButton(
-                child: Text('Adicionar'),
-                onPressed: () => submitData())
-          ],
+          ),
         ),
       ),
     );
