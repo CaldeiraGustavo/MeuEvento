@@ -43,24 +43,19 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
         body: Form(
           key: _formKey,
           child: NoteFormWidget(
-            Nome: nome,
-            Conjuge1: conjuge1,
-            Conjuge2: conjuge2,
+              Nome: nome,
+              Conjuge1: conjuge1,
+              Conjuge2: conjuge2,
               Endereco: endereco,
               QtdConvidados: qtdConvidados,
               DataEvento: dataEvento,
               onChangedNome: (nome) => {this.nome = nome},
-              onChangedConjuge1: (conjuge1) =>
-                {this.conjuge1 = conjuge1},
-              onChangedConjuge2: (conjuge2) =>
-                {this.conjuge2 = conjuge2},
+              onChangedConjuge1: (conjuge1) => {this.conjuge1 = conjuge1},
+              onChangedConjuge2: (conjuge2) => {this.conjuge2 = conjuge2},
               onChangedConvidados: (qtdconvidados) =>
-                {this.qtdConvidados = qtdconvidados as int},
-              onChangedData: (dataEvento) =>
-              {this.dataEvento = dataEvento},
-              onChangedEndereco: (endereco) =>
-              {this.endereco = endereco}
-          ),
+                  {this.qtdConvidados = int.parse(qtdconvidados)},
+              onChangedData: (dataEvento) => {this.dataEvento = dataEvento},
+              onChangedEndereco: (endereco) => {this.endereco = endereco}),
         ),
       );
 
@@ -106,7 +101,7 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
       convidados: qtdConvidados,
       data: dataEvento,
     );
-
+    print(note);
     EventoFirestore e = new EventoFirestore();
     e.update(note, widget.event.id);
   }
