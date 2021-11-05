@@ -278,7 +278,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          'Meu Evento',
+                          'Ceriomonialize',
                           style: TextStyle(
                             color: Colors.pinkAccent.shade100,
                             fontFamily: 'OpenSans',

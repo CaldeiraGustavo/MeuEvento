@@ -84,10 +84,10 @@ class _ContratosPageState extends State<ContratosPage> {
           ),
         ),
         onTap: () async {
-          await FirebaseApi.downloadFile(file.ref);
+          await FirebaseApi.downloadFileExample(file.ref);
 
           final snackBar = SnackBar(
-            content: Text('Downloaded ${file.name}'),
+            content: Text('Arquivo baixado: ${file.name}'),
           );
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         },

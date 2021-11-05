@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:dio/dio.dart';
-import 'package:downloads_path_provider_28/downloads_path_provider_28.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:path_provider/path_provider.dart';
@@ -49,20 +48,28 @@ class FirebaseApi {
 
   static Future downloadFile(Reference ref) async {
     final Dio _dio = Dio();
-    final dir = await DownloadsPathProvider.downloadsDirectory;
-    final file = File('${dir?.path}/${ref.name}');
-    print('${dir?.path}/${ref.name}');
-    print(file);
 
     try {
       String url = await ref.getDownloadURL();
-      print(dir?.path.toString());
       // path
-      // print(dir?.path);
+
       await _requestPermissions();
       await _dio.download(url, '/storage/emulated/0/Download/' + ref.name);
       // return await ref.writeToFile(file);
     } catch (e) {
+      print(e);
+    }
+  }
+
+  static Future<void> downloadFileExample(ref) async {
+    await _requestPermissions();
+    Directory appDocDir = await getApplicationDocumentsDirectory();
+    File downloadToFile = File('/storage/emulated/0/download/${ref.name}');
+    print('${appDocDir.path}/${ref.name}');
+    try {
+      await ref.writeToFile(downloadToFile);
+    } on FirebaseException catch (e) {
+      // e.g, e.code == 'canceled'
       print(e);
     }
   }
@@ -74,6 +81,9 @@ class FirebaseApi {
     Map<Permission, PermissionStatus> statuses = await [
       Permission.location,
       Permission.storage,
+      Permission.accessMediaLocation,
+      Permission.manageExternalStorage,
+      Permission.mediaLibrary
     ].request();
     return Permission.storage.status == PermissionStatus.granted;
   }

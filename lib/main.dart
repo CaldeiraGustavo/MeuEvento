@@ -21,7 +21,7 @@ Future main() async {
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
-  static final String title = 'Meu evento';
+  static final String title = 'Ceriomonialize';
 
   @override
   Widget build(BuildContext context) {

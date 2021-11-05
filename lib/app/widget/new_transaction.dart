@@ -27,20 +27,17 @@ class _NewTransactionState extends State<NewTransaction> {
     final enteredTitle = titleController.text;
     final enteredAmount = double.parse(amountController.text);
 
-    if (enteredTitle.length == 0 ||
-        enteredAmount < 0) {
+    if (enteredTitle.length == 0 || enteredAmount < 0) {
       return;
     }
     OrcamentoFirestore fire = new OrcamentoFirestore(widget.noteId);
     Orcamento orc = new Orcamento(
-        descricao: enteredTitle,
-        valor: enteredAmount,
-        tipo: dropdownValue
-    );
+        descricao: enteredTitle, valor: enteredAmount, tipo: dropdownValue);
     fire.store(orc);
 
     Navigator.of(context).pop();
   }
+
   String dropdownValue = 'Receita';
   @override
   Widget build(BuildContext context) {
@@ -59,12 +56,16 @@ class _NewTransactionState extends State<NewTransaction> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 TextField(
-                  decoration: InputDecoration(labelText: 'Descrição',),
+                  decoration: InputDecoration(
+                    labelText: 'Descrição',
+                  ),
                   controller: titleController,
+                  style: TextStyle(color: Colors.white),
                   onSubmitted: (_) => submitData,
                 ),
                 TextField(
                   decoration: InputDecoration(labelText: 'Preço'),
+                  style: TextStyle(color: Colors.white),
                   controller: amountController,
                   keyboardType: TextInputType.number,
                   onSubmitted: (_) => submitData,
@@ -84,12 +85,15 @@ class _NewTransactionState extends State<NewTransaction> {
                       .map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
-                      child: Text(value, style: TextStyle(color: Colors.lightGreen)),
+                      child: Text(value,
+                          style: TextStyle(color: Colors.lightGreen)),
                     );
                   }).toList(),
                 ),
                 TextButton(
-                    child: Text('Adicionar', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                    child: Text('Adicionar',
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold)),
                     onPressed: () => submitData())
               ],
             ),
